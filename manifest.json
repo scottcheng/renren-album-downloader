@@ -1,0 +1,19 @@
+{
+  "name": "Renren Album Downloader",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "",
+  "permissions": [
+    "http://*.rrimg.com/*",
+    "http://*.rrfmn.com/*",
+    "http://*.xnpic.com/*",
+    "http://photo.renren.com/photo/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://photo.renren.com/photo/*album-*"],
+      "css": ["style.css"],
+      "js": ["jquery-binary-ajax.js", "jszip.js", "base64ArrayBuffer.js", "content.js"]
+    }
+  ]
+}

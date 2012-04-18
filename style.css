@@ -1,0 +1,10 @@
+#renren_album_downloader_btn {
+  position: fixed;
+  left: 0;
+  top: 200px;
+  z-index: 10000;
+  
+  width: 50px;
+  height: 75px;
+  background-color: yellow;
+}
