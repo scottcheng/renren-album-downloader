@@ -21,12 +21,10 @@ $(function() {
       for (var i = 0; i < len; i++) {
         (function() {
           var photo = photos[i];
-          if (photo.title.length === 0) {
-            photo.title = albumName + '_' + i;
-          }
+          photo.title = (i + 1) + '.' + photo.title + '.jpg';
           $.get(photo.src, function(data) {
             data = base64ArrayBuffer(data);
-            folder.file(photo.title + '.jpg', data, {base64: true});
+            folder.file(photo.title, data, {base64: true});
             cnt++;
             if (cnt === len) {
               // Fetched all the pictures, trigger zip download
