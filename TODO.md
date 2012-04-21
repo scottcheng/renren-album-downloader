@@ -1,9 +1,6 @@
-TODO
-====
+1. Add an options page. Options:
+   - Zip size: Cut down zip size if Chrome crashes when preparing zips
+   - Use photo title as filename: Might make zips un-unzippable
+   - Use album name as folder name: Might make zips un-unzippable
 
-File name garbled in linux
-----
-
-Problem: 
-
-For Chinese-named albums, zip file would contain a "download_FILES" folder, which contains a correctly named folder (with album name) and a garble-named folder. Many (if not all) photos (also garble-named) are in the garble-named folder. 
+2. i18n

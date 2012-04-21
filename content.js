@@ -6,6 +6,10 @@ $(function() {
   var $dlBtn = $('<div />')
     .attr('id', 'renren_album_downloader_btn')
     .appendTo($body);
+
+  var processName = function(name) {
+    return name.replace(/[\/\\:\*\?<>|"]/g, '');
+  };
   
   $dlBtn.click(function() {
     // Array of photo sources
@@ -45,7 +49,6 @@ $(function() {
       for (var i = 0; i < len; i++) {
         (function() {
           var photo = photos[i];
-          photo.title = (i + 1) + '.' + photo.title + '.jpg';
           $.get(photo.src, function(data) {
             if (size + data.byteLength > THRESHOLD) {
               // Current zip is getting too large, download it
@@ -74,27 +77,31 @@ $(function() {
       $('div.photo-list li > a.picture').each(function(idx, ele) {
         cnt++;
         var picPageHref = $(ele).attr('href');  // URL of the photo page
-        
-        // Go to the photo page and get photo URL
-        $.get(picPageHref, function(data) {
-          var photoStrMat = data.match(/photosJson.+{.+}.*;/);
-          if (!photoStrMat) {
-            return;
-          }
-          var photoStr = photoStrMat[0].match(/{.+}/)[0];
-          var photoObj = $.parseJSON(photoStr);
-          albumName = photoObj.currentPhoto.albumName.replace(/\//g, ' ');
-          var photo = {
-            src: photoObj.currentPhoto.large,
-            title: photoObj.currentPhoto.title.replace(/\//g, ' ')
-          }
-          photos.push(photo);
-          cnt--;
-          if (cnt === 0) {
-            console.log(photos.length);
-            downloadPhotos();
-          }
-        });
+        (function() {
+          var curIdx = idx;
+          // Go to the photo page and get photo URL
+          $.get(picPageHref, function(data) {
+            var photoStrMat = data.match(/photosJson.+{.+}.*;/);
+            if (!photoStrMat) {
+              return;
+            }
+            var photoStr = photoStrMat[0].match(/{.+}/)[0];
+            var photoObj = $.parseJSON(photoStr);
+            // limit length of album name (i.e. folder name) to 20
+            albumName = processName(photoObj.currentPhoto.albumName).substr(0, 20);
+            var photo = {
+              src: photoObj.currentPhoto.large,
+              //title: (curIdx + 1) + '.' + processName(photoObj.currentPhoto.title) + '.jpg'
+              title: (curIdx + 1) + '.jpg'
+            }
+            photos.push(photo);
+            cnt--;
+            if (cnt === 0) {
+              console.log(photos.length);
+              downloadPhotos();
+            }
+          });
+        })();
       });
     };
 
@@ -108,7 +115,7 @@ $(function() {
       if (curScrollTop < $(document).height()) {
         $window.scrollTop(curScrollTop);
         // Continue loop
-        setTimeout(scrollDown, 500);
+        setTimeout(scrollDown, 750);
         return;
       }
       // Loop finished
@@ -119,5 +126,3 @@ $(function() {
     scrollDown();
   });
 });
-
-
