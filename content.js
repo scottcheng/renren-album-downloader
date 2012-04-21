@@ -1,24 +1,25 @@
 // Renren Album Downloader by Scott Cheng
 
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-31078120-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
 $(function() {
   // Size threshold in byte
   var THRESHOLD = 1.3 * 1024 * 1024;
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-31078120-1']);
   _gaq.push(['_trackEvent', 'Album', 'visit', window.location.href]);
 
   var $body = $('body');
   var $dlBtn = $('<div />')
     .attr('id', 'renren_album_downloader_btn')
     .appendTo($body);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = 'https://ssl.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
 
   $dlBtn.ajaxError(function(e, jqXHR, ajaxSettings) {
     alert('ajax error when trying to reach ' + ajaxSettings.url + '\nwill soon fix.');  // TODO

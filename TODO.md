@@ -22,7 +22,6 @@
 
 8. Goto thumb page first. 
 
-9. Chrome still crashes. Try slowing things down. Test on: 
-  * http://photo.renren.com/photo/253022891/album-596231538
-  * http://photo.renren.com/photo/240393949/album-594455030
-  * http://photo.renren.com/photo/343535679/album-597052497
+9. Slow things down a little bit. Add a download queue, and set a timeout between downloads. 
+
+10. GA is not working. Try putting it into background.html, and use message passing between content script and the html. 
