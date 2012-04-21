@@ -1,8 +1,8 @@
 1. Add an options page. Options:
    - Zip size: Cut down zip size if Chrome crashes when preparing zips
-   	 - Default: 1.4MB
    	 - Range: 100KB - 2MB
-   	 - Recommended: 1.4MB
+   	 - Recommended: 1 ~ 1.4MB (below: yellow, within: green, over: red)
+   - Scroll speed: Increase scroll speed if you hate waiting for the scroll. But remember that a high scroll speed might result in downloading incomplete albums. 
    - Use photo title as filename: Might make zips un-unzippable
      - Default: no
    - Use album name as folder name: Might make zips un-unzippable
@@ -16,4 +16,13 @@
 
 5. Test on ubuntu, mac. 
 
-6. GA
+6. Support download album from photo page
+
+7. Support download from share page like http://share.renren.com/share/231951501/12703214700
+
+8. Goto thumb page first. 
+
+9. Chrome still crashes. Try slowing things down. Test on: 
+  * http://photo.renren.com/photo/253022891/album-596231538
+  * http://photo.renren.com/photo/240393949/album-594455030
+  * http://photo.renren.com/photo/343535679/album-597052497

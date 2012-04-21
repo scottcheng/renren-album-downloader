@@ -2,7 +2,7 @@
 
 $(function() {
   // Size threshold in byte
-  var THRESHOLD = 1.4 * 1024 * 1024;
+  var THRESHOLD = 1.3 * 1024 * 1024;
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-31078120-1']);
@@ -21,7 +21,7 @@ $(function() {
 
 
   $dlBtn.ajaxError(function(e, jqXHR, ajaxSettings) {
-    alert('ajax error, will soon fix');  // TODO
+    alert('ajax error when trying to reach ' + ajaxSettings.url + '\nwill soon fix.');  // TODO
     // GA url
     _gaq.push(['_trackEvent', 'Error', 'ajaxerror', ajaxSettings.url]);
   });
@@ -75,18 +75,15 @@ $(function() {
           folder.file('info.txt', createInfo());
         }
       };
-      
-      var triggerDownload = function() {
+
+      var downloadZip = function() {
         var url = "data:application/zip;base64," + zip.generate();
         var $ifrm = $('<iframe />')
           .css('display', 'none')
           .attr('src', url)
           .height(0)
           .width(0)
-          .appendTo('body');
-        setTimeout(function() {
-          $ifrm.remove();
-        }, 200);
+          .appendTo($body);
       };
       
       // Create zip and folder
@@ -101,20 +98,31 @@ $(function() {
         (function() {
           var photo = photos[i];
           $.get(photo.src, function(data) {
+            cnt++;
+            
+            if (data.byteLength >= THRESHOLD) {
+              // Man this is big! 
+              window.setTimeout(function() {
+                window.open(photo.src);
+              }, 1500);
+              return;
+            }
+            
             if (size + data.byteLength > THRESHOLD) {
               // Current zip is getting too large, download it
-              triggerDownload();
+              downloadZip();
 
               // Create new zip
               createZip();
               size = 0;
             }
+
             size += data.byteLength;
             data = base64ArrayBuffer(data);
             folder.file(photo.filename, data, {base64: true});
-            cnt++;
+            
             if (cnt === len) {
-              triggerDownload();
+              downloadZip();
             }
           },
           'binary');
@@ -141,12 +149,14 @@ $(function() {
             // limit length of album name (i.e. folder name) to 20
             folderName = 'album' + photoObj.currentPhoto.albumId;
             albumName = photoObj.currentPhoto.albumName;
+            var src = photoObj.currentPhoto.large;
+            var ext = src.match(/.\w{3,4}$/)[0];
             var photo = {
-              src: photoObj.currentPhoto.large,
+              src: src,
               title: photoObj.currentPhoto.title,
-              filename: (curIdx + 1) + '.jpg',
+              filename: (curIdx + 1) + ext,
               idx: curIdx + 1
-            }
+            };
             photos.push(photo);
             cnt--;
             if (cnt === 0) {
@@ -169,7 +179,7 @@ $(function() {
       if (curScrollTop < $(document).height()) {
         $window.scrollTop(curScrollTop);
         // Continue loop
-        setTimeout(scrollDown, 750);
+        window.setTimeout(scrollDown, 750);
         return;
       }
       // Loop finished
