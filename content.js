@@ -1,29 +1,66 @@
+// Renren Album Downloader by Scott Cheng
+
 $(function() {
   // Size threshold in byte
-  var THRESHOLD = 1.5 * 1024 * 1024;
+  var THRESHOLD = 1.4 * 1024 * 1024;
 
   var $body = $('body');
   var $dlBtn = $('<div />')
     .attr('id', 'renren_album_downloader_btn')
     .appendTo($body);
 
+  $dlBtn.ajaxError(function(e, jqXHR, ajaxSettings) {
+    alert('ajax error');
+    // TODO send to GA
+  });
+
   var processName = function(name) {
     return name.replace(/[\/\\:\*\?<>|"]/g, '');
   };
   
   $dlBtn.click(function() {
+
+    // TODO GA album url
+
     // Array of photo sources
-    var albumName = '';
-    var photos = [];
+    var
+      albumName = '',
+      albumDesc = $.trim($('#describeAlbum').html()),  // Album description
+      folderName = '',
+      photos = [];
+
+    var createInfo = function () {
+      var ret = '';
+      ret += 'Name: ' + albumName + '\n';
+      if (albumDesc.length > 0) {
+        ret += 'Description: ' + albumDesc + '\n';
+      }
+      ret += '\n';
+      var len = photos.length;
+      for (var idx = 1; idx <= len; idx++) {
+        for (var i = 0; i < len; i++) {
+          if (photos[i].idx === idx) {
+            if (photos[i].title.length > 0) {
+              ret += idx + '. ' + photos[i].title + '\n';
+            }
+            break;
+          }
+        }
+      }
+      return ret;
+    };
 
     var downloadPhotos = function() {
       // Zip and folder object
       var zip, folder;
       
-      var createZip = function() {
+      var createZip = function(firstTime) {
         zip = new JSZip();
         // Create folder to put picture into
-        folder = zip.folder(albumName);
+        folder = zip.folder(folderName);
+        if (firstTime) {
+          folder.file('info.txt', createInfo());
+        }
       };
       
       var triggerDownload = function() {
@@ -40,12 +77,13 @@ $(function() {
       };
       
       // Create zip and folder
-      createZip();
+      createZip(true);
       
       // Get the image data of each picture and put in the zip
-      var len = photos.length;  // Number of photos
-      var size = 0;  // Size of current zip
-      var cnt = 0;  // Counts downloaded photos
+      var
+        len = photos.length,  // Number of photos
+        size = 0,  // Size of current zip
+        cnt = 0;  // Counts downloaded photos
       for (var i = 0; i < len; i++) {
         (function() {
           var photo = photos[i];
@@ -60,7 +98,7 @@ $(function() {
             }
             size += data.byteLength;
             data = base64ArrayBuffer(data);
-            folder.file(photo.title, data, {base64: true});
+            folder.file(photo.filename, data, {base64: true});
             cnt++;
             if (cnt === len) {
               triggerDownload();
@@ -88,16 +126,20 @@ $(function() {
             var photoStr = photoStrMat[0].match(/{.+}/)[0];
             var photoObj = $.parseJSON(photoStr);
             // limit length of album name (i.e. folder name) to 20
-            albumName = processName(photoObj.currentPhoto.albumName).substr(0, 20);
+            folderName = 'album' + photoObj.currentPhoto.albumId;
+            albumName = photoObj.currentPhoto.albumName;
             var photo = {
               src: photoObj.currentPhoto.large,
-              //title: (curIdx + 1) + '.' + processName(photoObj.currentPhoto.title) + '.jpg'
-              title: (curIdx + 1) + '.jpg'
+              title: photoObj.currentPhoto.title,
+              filename: (curIdx + 1) + '.jpg',
+              idx: curIdx + 1
             }
             photos.push(photo);
+            // TODO GA domain
             cnt--;
             if (cnt === 0) {
               console.log(photos.length);
+              // GA photos length
               downloadPhotos();
             }
           });
