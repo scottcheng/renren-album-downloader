@@ -10,7 +10,7 @@ How to use
 
 I know making you download a bunch of meaninglessly-named zips containing meaninglessly-named album folders is far from perfect from a user experience standpoint, but I've tried my best. I will make it better when I am able to (when Chrome allow me to). 
 
-Note: for those extra large photos (> maximum zip size), new tabs will be created, and you are welcomed to download them yourself. This rarely happens, though. :)
+Note: for those extra large photos (> maximum zip size), new tabs will be created, and you are welcomed to download them yourself. This should rarely happen, though. :)
 
 If things just don't work, try restarting Chrome. An extended session might induce weird problems. 
 

@@ -25,3 +25,5 @@
 9. Slow things down a little bit. Add a download queue, and set a timeout between downloads. 
 
 10. GA is not working. Try putting it into background.html, and use message passing between content script and the html. 
+
+11. Also, put the main logic in background.html, thus closing the tab / navigating to other pages will not affect album download. Meanwhile, find another way to post notifications. Desktop notif? Or send message to content script and let content script post them (like I originally pictured)? 
