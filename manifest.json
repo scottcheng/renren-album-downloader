@@ -12,11 +12,14 @@
     "http://photo.renren.com/photo/"
   ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_scripts": [
     {
       "matches": ["http://photo.renren.com/photo/*album-*"],
       "css": ["style.css"],
-      "js": ["jquery-binary-ajax.js", "jszip.js", "base64ArrayBuffer.js", "content.js"]
+      "js": ["lib/jquery-binary-ajax.js", "lib/jszip.js", "lib/base64ArrayBuffer.js", "content.js"]
     }
   ]
 }
