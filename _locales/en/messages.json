@@ -32,7 +32,7 @@
   },
 
   "folderName": {
-    "message": "Renren album $albumId$",
+    "message": "Renren_album_$albumId$",
     "description": "Name of the folder inside the zip",
     "placeholders": {
       "albumId": {

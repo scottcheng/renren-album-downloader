@@ -29,16 +29,5 @@
   "msgFinished": {
     "message": "完成!",
     "description": "Message shown when finished downloading"
-  },
-
-  "folderName": {
-    "message": "人人相册$albumId$",
-    "description": "Name of the folder inside the zip",
-    "placeholders": {
-      "albumId": {
-        "content": "$1",
-        "example": "417309039"
-      }
-    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "0.6",
+  "version": "0.7.0",
   "manifest_version": 2,
   "description": "__MSG_extDesc__",
   "permissions": [
@@ -26,5 +26,10 @@
     "ui/download.png",
     "ui/checkmark.png"
   ],
-  "default_locale": "en"
+  "default_locale": "en",
+  "icon": {
+    "16": "",
+    "48": "",
+    "128": ""
+  }
 }
