@@ -54,11 +54,11 @@ var view = (function() {
       .appendTo($btn);
     $icon = $('<div />')
       .attr('id', 'renren_album_downloader_btn_icon')
-      .css('backgroundImage', 'url(' + chrome.extension.getURL('ui/download.png') + ')')
+      .addClass('default')
       .appendTo($hint);
     $textWrapper = $('<div />')
       .attr('id', 'renren_album_downloader_btn_text')
-      .html('Download Album')
+      .html(chrome.i18n.getMessage('hint'))
       .appendTo($hint);
     $btn.appendTo($body);
 
@@ -102,8 +102,6 @@ var view = (function() {
   obj.scrollToBottom = function(callback) {
     state = 'downloading';
 
-    $('#tabview_3_1').trigger('click');
-
     // Scroll to bottom to load all the photo links
     var $window = $(window);
     var
@@ -128,30 +126,32 @@ var view = (function() {
   obj.start = function() {
     state = 'analyzing';
     $btn.addClass('expanded');
-    $info.html('Analyzing...');
+    $info.html(chrome.i18n.getMessage('msgAnalyzing'));
     for (var i = 0; i < 8; i++) {
       $('<div />').appendTo($icon);
     }
     $icon
-      .css('backgroundImage', 'none')
+      .removeClass('default')
       .addClass('spinning');
   };
 
   obj.startDownload = function(cnt) {
     state = 'downloading';
-    $info.html('Fetching ' + cnt + ' photos...');
+    $info.html(chrome.i18n.getMessage('msgDownloading', cnt.toString()));
   };
 
   obj.finish = function() {
     state = 'finished';
-    $info.html('Done!');
+    $info.html(chrome.i18n.getMessage('msgFinished'));
     disabled = false;
     $btn.removeClass('disabled');
     $icon
       .removeClass('spinning')
-      .empty()
-      .css('backgroundImage', 'url(' + chrome.extension.getURL('ui/checkmark.png') + ')');
-	// TODO add link to dld folder
+      .addClass('finished')
+      .empty();
+    window.setTimeout(function() {
+      $btn.removeClass('expanded');
+    }, 5000);
   };
 
   return obj;
@@ -178,7 +178,7 @@ var Downloader = (function() {
   var checkQueue = function() {
     var zip2Dld = queue.splice(0, 1)[0];  // Get the first element
     if (zip2Dld) {
-      var url = "data:application/zip;base64," + zip2Dld.generate();
+      var url = 'data:application/zip;base64,' + zip2Dld.generate();
       triggerDownload(url);
     }
     if (!isFinished || queue.length > 0) {
@@ -248,12 +248,11 @@ var album = (function() {
 
   var createInfo = function () {
     var ret = '';
-    ret += 'Name: ' + albumName + '\n';
+    ret += albumName + '\n\n';
     albumDesc = $.trim($('#describeAlbum').html());
     if (albumDesc.length > 0) {
-      ret += 'Description: ' + albumDesc + '\n';
+      ret += albumDesc + '\n\n';
     }
-    ret += '\n';
     var len = photos.length;
     for (var idx = 1; idx <= len; idx++) {
       for (var i = 0; i < len; i++) {
@@ -314,8 +313,7 @@ var album = (function() {
           }
           var photoStr = photoStrMat[0].match(/{.+}/)[0];
           var photoObj = $.parseJSON(photoStr);
-          // limit length of album name (i.e. folder name) to 20
-          folderName = 'album' + photoObj.currentPhoto.albumId;
+          folderName = chrome.i18n.getMessage('folderName', photoObj.currentPhoto.albumId.toString());
           albumName = photoObj.currentPhoto.albumName;
           var src = photoObj.currentPhoto.large;
           var ext = src.match(/.\w{3,4}$/)[0];

@@ -1,0 +1,44 @@
+{
+  "extName": {
+    "message": "人人相册下载器",
+    "description": "Extension name"
+  },
+  "extDesc": {
+    "message": "",
+    "description": "Extension description"
+  },
+
+  "hint": {
+    "message": "下载整个相册",
+    "description": "Text that appear on the download button"
+  },
+  "msgAnalyzing": {
+    "message": "分析中...",
+    "description": "Message shown when analyzing"
+  },
+  "msgDownloading": {
+    "message": "正在下载$num$张照片...",
+    "description": "Message shown when downloading",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "45"
+      }
+    }
+  },
+  "msgFinished": {
+    "message": "完成!",
+    "description": "Message shown when finished downloading"
+  },
+
+  "folderName": {
+    "message": "人人相册$albumId$",
+    "description": "Name of the folder inside the zip",
+    "placeholders": {
+      "albumId": {
+        "content": "$1",
+        "example": "417309039"
+      }
+    }
+  }
+}

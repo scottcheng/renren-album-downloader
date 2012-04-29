@@ -1,0 +1,44 @@
+{
+  "extName": {
+    "message": "Renren Album Downloader",
+    "description": "Extension name"
+  },
+  "extDesc": {
+    "message": "",
+    "description": "Extension description"
+  },
+
+  "hint": {
+    "message": "Download Album",
+    "description": "Text that appear on the download button"
+  },
+  "msgAnalyzing": {
+    "message": "Analyzing...",
+    "description": "Message shown when analyzing"
+  },
+  "msgDownloading": {
+    "message": "Fetching $num$ photos...",
+    "description": "Message shown when downloading",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "45"
+      }
+    }
+  },
+  "msgFinished": {
+    "message": "Done!",
+    "description": "Message shown when finished downloading"
+  },
+
+  "folderName": {
+    "message": "Renren album $albumId$",
+    "description": "Name of the folder inside the zip",
+    "placeholders": {
+      "albumId": {
+        "content": "$1",
+        "example": "417309039"
+      }
+    }
+  }
+}

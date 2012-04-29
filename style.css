@@ -59,8 +59,21 @@
   background-color: #FAFAFA;
 }
 
+#renren_album_downloader_btn_text {
+  height: 14px;
+  padding: 9px 12px;
+  border-radius: 0 0 3px 0;
+  color: #444;
+  border-left: 1px solid #DDD;
+  -webkit-transition: color .3s ease-in-out;
+}
+
+#renren_album_downloader_btn:hover #renren_album_downloader_btn_text {
+  color: #000;
+}
+
 #renren_album_downloader_btn_icon {
-  width: 30px;
+  width: 32px;
   height: 31px;
   background-repeat: no-repeat;
   background-position: 8px 9px;
@@ -72,21 +85,17 @@
   opacity: 1;
 }
 
-#renren_album_downloader_btn:hover #renren_album_downloader_btn_text {
-  color: #000;
-}
-
-#renren_album_downloader_btn_text {
-  height: 14px;
-  padding: 9px 12px;
-  border-radius: 0 0 3px 0;
-  color: #444;
-  border-left: 1px solid #EEE;
-  -webkit-transition: color .3s ease-in-out;
+#renren_album_downloader_btn_icon.default {
+  background-image: url(chrome-extension://__MSG_@@extension_id__/ui/download.png);
 }
 
 #renren_album_downloader_btn_icon.spinning{
   position: relative;
+  background-image: none;
+}
+
+#renren_album_downloader_btn_icon.finished {
+  background-image: url(chrome-extension://__MSG_@@extension_id__/ui/checkmark.png);
 }
 
 #renren_album_downloader_btn_icon.spinning > div {
