@@ -63,7 +63,7 @@
   width: 30px;
   height: 31px;
   background-repeat: no-repeat;
-  background-position: 9px 7px;
+  background-position: 8px 9px;
   opacity: 0.5;
   -webkit-transition: opacity .3s ease-in-out;
 }
@@ -72,10 +72,88 @@
   opacity: 1;
 }
 
+#renren_album_downloader_btn:hover #renren_album_downloader_btn_text {
+  color: #000;
+}
+
 #renren_album_downloader_btn_text {
   height: 14px;
   padding: 9px 12px;
   border-radius: 0 0 3px 0;
   color: #444;
   border-left: 1px solid #EEE;
+  -webkit-transition: color .3s ease-in-out;
+}
+
+#renren_album_downloader_btn_icon.spinning{
+  position: relative;
+}
+
+#renren_album_downloader_btn_icon.spinning > div {
+  position: absolute;
+  background-color: transparent;
+  height: 3px;
+  width: 3px;
+  border-radius: 1px;
+  -webkit-animation-name: spinningAnim;
+  -webkit-animation-duration: 1.04s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: linear;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(1) {
+  left: 8px;
+  top: 16px;
+  -webkit-animation-delay: 0.39s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(2) {
+  left: 10px;
+  top: 11px;
+  -webkit-animation-delay: 0.52s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(3) {
+  left: 15px;
+  top: 9px;
+  -webkit-animation-delay: 0.65s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(4) {
+  left: 19px;
+  top: 11px;
+  -webkit-animation-delay: 0.78s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(5) {
+  left: 21px;
+  top: 16px;
+  -webkit-animation-delay: 0.91s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(6) {
+  left: 19px;
+  top: 20px;
+  -webkit-animation-delay: 1.04s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(7) {
+  left: 15px;
+  top: 22px;
+  -webkit-animation-delay: 1.17s;
+}
+
+#renren_album_downloader_btn_icon.spinning > div:nth-child(8) {
+  left: 10px;
+  top: 20px;
+  -webkit-animation-delay: 1.3s;
+}
+
+@-webkit-keyframes spinningAnim {
+  0% {
+    background-color: #444
+  }
+  100% {
+    background-color: transparent
+  }
 }

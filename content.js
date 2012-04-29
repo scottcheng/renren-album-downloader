@@ -54,7 +54,7 @@ var view = (function() {
       .appendTo($btn);
     $icon = $('<div />')
       .attr('id', 'renren_album_downloader_btn_icon')
-      .css('backgroundImage', 'url(' + chrome.extension.getURL('ui/arrow.png') + ')')
+      .css('backgroundImage', 'url(' + chrome.extension.getURL('ui/download.png') + ')')
       .appendTo($hint);
     $textWrapper = $('<div />')
       .attr('id', 'renren_album_downloader_btn_text')
@@ -63,7 +63,6 @@ var view = (function() {
     $btn.appendTo($body);
 
     $btn.ajaxError(function(e, jqXHR, ajaxSettings) {
-      alert('ajax error when trying to reach ' + ajaxSettings.url + '\nwill soon fix.');  // TODO
       chrome.extension.sendRequest({
         e: 'ajaxError',
         opt: {
@@ -103,7 +102,7 @@ var view = (function() {
   obj.scrollToBottom = function(callback) {
     state = 'downloading';
 
-    // TODO add a spinner, use CSS to make it spin
+    $('#tabview_3_1').trigger('click');
 
     // Scroll to bottom to load all the photo links
     var $window = $(window);
@@ -130,6 +129,12 @@ var view = (function() {
     state = 'analyzing';
     $btn.addClass('expanded');
     $info.html('Analyzing...');
+    for (var i = 0; i < 8; i++) {
+      $('<div />').appendTo($icon);
+    }
+    $icon
+      .css('backgroundImage', 'none')
+      .addClass('spinning');
   };
 
   obj.startDownload = function(cnt) {
@@ -142,6 +147,10 @@ var view = (function() {
     $info.html('Done!');
     disabled = false;
     $btn.removeClass('disabled');
+    $icon
+      .removeClass('spinning')
+      .empty()
+      .css('backgroundImage', 'url(' + chrome.extension.getURL('ui/checkmark.png') + ')');
 	// TODO add link to dld folder
   };
 
