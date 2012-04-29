@@ -1,6 +1,6 @@
 {
   "name": "Renren Album Downloader",
-  "version": "0.5",
+  "version": "0.6",
   "manifest_version": 2,
   "description": "",
   "permissions": [
@@ -21,5 +21,8 @@
       "css": ["style.css"],
       "js": ["lib/jquery-binary-ajax.js", "lib/jszip.js", "lib/base64ArrayBuffer.js", "content.js"]
     }
+  ],
+  "web_accessible_resources": [
+    "ui/arrow.png"
   ]
 }

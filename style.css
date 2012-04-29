@@ -1,10 +1,81 @@
+.clearFloat:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearFloat > div,
+.clearFloat > ul,
+.clearFloat > li {
+	float: left;
+}
+
+#renren_album_downloader_btn,
+#renren_album_downloader_btn_hint {
+  box-shadow: 0 0 6px rgba(0, 0, 0, .3);
+}
+
 #renren_album_downloader_btn {
   position: fixed;
-  left: 0;
-  top: 200px;
-  z-index: 10000;
-  
-  width: 50px;
-  height: 75px;
-  background-color: yellow;
+  right: 24px;
+  top: 0;
+  z-index: 1900;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 0 0 3px 3px;
+  background-color: #FFF;
+  -webkit-user-select: none;
+  -webkit-transition: top .3s ease-in-out;
+}
+
+#renren_album_downloader_btn:hover {
+  top: 9px;
+}
+
+#renren_album_downloader_btn.disabled {
+  cursor: default;
+}
+
+#renren_album_downloader_btn.expanded {
+  top: 31px;
+}
+
+#renren_album_downloader_btn_info {
+  height: 14px;
+  padding: 9px;
+  text-align: center;
+  color: #AAA;
+  -webkit-transition: opacity .3s ease-in-out;
+}
+
+#renren_album_downloader_btn_hint {
+  background-color: #F7F7F7;
+  -webkit-transition: background-color .3s ease-in-out;
+}
+
+#renren_album_downloader_btn:hover #renren_album_downloader_btn_hint {
+  background-color: #FAFAFA;
+}
+
+#renren_album_downloader_btn_icon {
+  width: 30px;
+  height: 31px;
+  background-repeat: no-repeat;
+  background-position: 9px 7px;
+  opacity: 0.5;
+  -webkit-transition: opacity .3s ease-in-out;
+}
+
+#renren_album_downloader_btn:hover #renren_album_downloader_btn_icon {
+  opacity: 1;
+}
+
+#renren_album_downloader_btn_text {
+  height: 14px;
+  padding: 9px 12px;
+  border-radius: 0 0 3px 0;
+  color: #444;
+  border-left: 1px solid #EEE;
 }

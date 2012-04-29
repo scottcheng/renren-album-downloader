@@ -6,7 +6,7 @@ var conf = {
   THRESHOLD: 1.3 * 1024 * 1024,
   
   // Download trigger interval
-  DLD_ITV: 1500,
+  DLD_ITV: 2500,
 
   // Scroll screen interval
   SCR_ITV: 750,
@@ -30,16 +30,66 @@ var view = (function() {
 
   var
     $body,
-    $dldBtn;
+    $textWrapper,
+    $icon,
+    $hint,
+    $info,
+    $btn;
 
   var state = '';
+
+  var disabled = false;
 
   obj.init = function() {
     state = 'init';
     $body = $('body');
-    $dldBtn = $('<div />')
-      .attr('id', 'renren_album_downloader_btn')
-      .appendTo($body);
+    $btn = $('<div />')
+      .attr('id', 'renren_album_downloader_btn');
+    $info = $('<div />')
+      .attr('id', 'renren_album_downloader_btn_info')
+      .appendTo($btn);
+    $hint = $('<div />')
+      .attr('id', 'renren_album_downloader_btn_hint')
+      .addClass('clearFloat')
+      .appendTo($btn);
+    $icon = $('<div />')
+      .attr('id', 'renren_album_downloader_btn_icon')
+      .css('backgroundImage', 'url(' + chrome.extension.getURL('ui/arrow.png') + ')')
+      .appendTo($hint);
+    $textWrapper = $('<div />')
+      .attr('id', 'renren_album_downloader_btn_text')
+      .html('Download Album')
+      .appendTo($hint);
+    $btn.appendTo($body);
+
+    $btn.ajaxError(function(e, jqXHR, ajaxSettings) {
+      alert('ajax error when trying to reach ' + ajaxSettings.url + '\nwill soon fix.');  // TODO
+      chrome.extension.sendRequest({
+        e: 'ajaxError',
+        opt: {
+          url: ajaxSettings.url
+        }
+      });
+    });
+    
+    $btn.click(function() {
+      if (disabled) {
+        return;
+      }
+      disabled = true;
+      $btn.addClass('disabled');
+
+      chrome.extension.sendRequest({
+        e: 'clickDownload'
+      });
+
+      view.start();
+
+      view.scrollToBottom(function() {
+        // Start getting photos
+        album.start();
+      });
+    });
   };
 
   obj.getBody = function() {
@@ -47,7 +97,7 @@ var view = (function() {
   };
 
   obj.getDldBtn = function() {
-    return $dldBtn;
+    return $btn;
   };
 
   obj.scrollToBottom = function(callback) {
@@ -76,9 +126,23 @@ var view = (function() {
     scrollDown();
   };
 
+  obj.start = function() {
+    state = 'analyzing';
+    $btn.addClass('expanded');
+    $info.html('Analyzing...');
+  };
+
+  obj.startDownload = function(cnt) {
+    state = 'downloading';
+    $info.html('Fetching ' + cnt + ' photos...');
+  };
+
   obj.finish = function() {
     state = 'finished';
-    $dldBtn.addClass('finished');
+    $info.html('Done!');
+    disabled = false;
+    $btn.removeClass('disabled');
+	// TODO add link to dld folder
   };
 
   return obj;
@@ -110,6 +174,8 @@ var Downloader = (function() {
     }
     if (!isFinished || queue.length > 0) {
       window.setTimeout(checkQueue, conf.DLD_ITV);
+    } else {
+      view.finish();
     }
   };
 
@@ -195,6 +261,7 @@ var album = (function() {
 
   var downloadPhotos = function() {
     var len = photos.length;  // Number of photos
+    view.startDownload(len);
 
     chrome.extension.sendRequest({
       e: 'startDownload', 
@@ -263,32 +330,9 @@ var album = (function() {
 })();
 
 $(function() {
-
   chrome.extension.sendRequest({
     e: 'visitAlbum'
   });
 
   view.init();
-
-  view.getDldBtn().ajaxError(function(e, jqXHR, ajaxSettings) {
-    alert('ajax error when trying to reach ' + ajaxSettings.url + '\nwill soon fix.');  // TODO
-    chrome.extension.sendRequest({
-      e: 'ajaxError',
-      opt: {
-        url: ajaxSettings.url
-      }
-    });
-  });
-  
-  view.getDldBtn().click(function() {
-
-    chrome.extension.sendRequest({
-      e: 'clickDownload'
-    });
-
-    view.scrollToBottom(function() {
-      // Start getting photos
-      album.start();
-    });
-  });
 });
