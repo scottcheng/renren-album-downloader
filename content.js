@@ -313,7 +313,7 @@ var album = (function() {
           }
           var photoStr = photoStrMat[0].match(/{.+}/)[0];
           var photoObj = $.parseJSON(photoStr);
-          folderName = chrome.i18n.getMessage('folderName', photoObj.currentPhoto.albumId.toString());
+          folderName = 'Renren_album_' + photoObj.currentPhoto.albumId;
           albumName = photoObj.currentPhoto.albumName;
           var src = photoObj.currentPhoto.large;
           var ext = src.match(/.\w{3,4}$/)[0];

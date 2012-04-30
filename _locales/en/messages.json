@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-    "message": "",
+    "message": "Download Renren album with one click.",
     "description": "Extension description"
   },
 
@@ -29,16 +29,5 @@
   "msgFinished": {
     "message": "Done!",
     "description": "Message shown when finished downloading"
-  },
-
-  "folderName": {
-    "message": "Renren_album_$albumId$",
-    "description": "Name of the folder inside the zip",
-    "placeholders": {
-      "albumId": {
-        "content": "$1",
-        "example": "417309039"
-      }
-    }
   }
 }
