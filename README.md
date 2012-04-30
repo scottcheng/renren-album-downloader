@@ -1,6 +1,6 @@
-想要备份朋友的珍贵照片吗？
-想要收集那些脑残或奇葩的相册吗？
-想要私藏暗恋的那个人的所有照片吗？
+想要备份朋友的珍贵照片吗？  
+想要收集那些脑残或奇葩的相册吗？  
+想要私藏暗恋的那个人的所有照片吗？  
 
 人人相册下载器会把相册里的所有照片打包成zip，然后送到你的硬盘上。
 
@@ -9,7 +9,7 @@
 ====
 
 1. 进入一个人人相册页面。
-   * 不是相册分享页面，如果你在一个相册分享页面，请点击相册标题下面的链接进入真正的相册页面。
+   * 不是相册分享页面。如果你刚好在一个相册分享页面，请点击相册标题下面的链接进入真正的相册页面，再使用插件。
 
 2. 点击“下载整个相册”。
    * 强烈建议在“缩略图”模式下使用，否则滚动到页面末尾会花很久。
@@ -32,9 +32,9 @@
 
 * 用data URI下载大文件（> 1.3 MB）会导致Chrome崩溃。因此，大的相册被分成了多个zip。由于同样的原因，过于大的照片会被显示在新tab里（而不是塞到zip里）。
 
-* 用中文命名文件或文件夹会导致zip出错。因此，目前把所有可能出现中文的内容（相册标题、相册描述、照片描述）全部塞到了info.txt中，而不是直接作为文件名。
+* 用中文命名文件或文件夹有可能会导致zip出错。因此，目前把所有可能出现中文的内容（相册标题、相册描述、照片描述）全部塞到了info.txt中，而不是直接作为文件名。
 
-* 在Ubuntu系统下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
+* 在Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
 
 
 - - - - -
@@ -67,6 +67,6 @@ Known Issues
 
 * Downloading large files (> 1.3 MB) with data URI will cause Chrome to crash. This is why large albums are divided into several zips. For the same reason, extra-large photos will be opened in new tabs (rather than zipped), and you are welcomed to download them yourself. This should rarely happen, though. :)
 
-* Naming folders / files with Chinese characters sometimes make zips to corrupt. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
+* Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
 
 * When extracting zips in Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
