@@ -12,7 +12,10 @@ var conf = {
   SCR_ITV: 750,
 
   // Open new window for huge photo timeout
-  OPEN_TO: 3000
+  OPEN_TO: 3000,
+
+  // Reposition download button interval
+  REPOSITION_ITV: 500
 };
 
 var util = (function() {
@@ -30,12 +33,12 @@ var view = (function() {
 
   var
     $body,
-    $container,
     $textWrapper,
     $icon,
     $hint,
     $info,
-    $btn;
+    $btn,
+    $friendsPanel;
 
   var state = '';
 
@@ -44,7 +47,6 @@ var view = (function() {
   obj.init = function() {
     state = 'init';
     $body = $('body');
-    $container = $('#container-for-pager');
     $btn = $('<div />')
       .attr('id', 'renren_album_downloader_btn');
     $info = $('<div />')
@@ -62,7 +64,7 @@ var view = (function() {
       .attr('id', 'renren_album_downloader_btn_text')
       .html(chrome.i18n.getMessage('hint'))
       .appendTo($hint);
-    $btn.appendTo($container);
+    $btn.appendTo($body);
 
     $btn.ajaxError(function(e, jqXHR, ajaxSettings) {
       chrome.extension.sendRequest({
@@ -90,6 +92,25 @@ var view = (function() {
         // Start getting photos
         album.start();
       });
+    });
+
+    $(function() {
+      $friendsPanel = $('#friends-panel');
+      if ($friendsPanel.hasClass('side-panel')) {
+        var $sidebar = $friendsPanel.children('div');
+        var oriRight = window.parseInt($btn.css('right'));
+        var repositionBtn = function() {
+          if ($sidebar.hasClass('actived')) {
+            // Sidebar is here, watch out
+            var newRight = $sidebar.width() + oriRight;
+            $btn.css('right', newRight);
+          } else {
+            $btn.css('right', oriRight);
+          }
+          window.setTimeout(repositionBtn, conf.REPOSITION_ITV);
+        };
+        repositionBtn();
+      }
     });
   };
 
@@ -334,10 +355,9 @@ var album = (function() {
   return obj;
 })();
 
-$(function() {
-  chrome.extension.sendRequest({
-    e: 'visitAlbum'
-  });
 
-  view.init();
+chrome.extension.sendRequest({
+  e: 'visitAlbum'
 });
+
+view.init();
