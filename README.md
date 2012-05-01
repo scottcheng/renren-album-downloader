@@ -34,6 +34,8 @@
 
 * 用中文命名文件或文件夹有可能会导致zip出错。因此，目前把所有可能出现中文的内容（相册标题、相册描述、照片描述）全部塞到了info.txt中，而不是直接作为文件名。
 
+* 关于zip文件名：zip的文件名是浏览器决定的（我也想把它改成相册名）。新版本的Chrome会把zip命名为“下载.zip”，而老版本的Chrome则会直接命名为“下载”。为了方便解压缩，建议使用新版本Chrome。
+
 * 在Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
 
 
@@ -69,5 +71,7 @@ Known Issues
 * Downloading large files (> 1.3 MB) with data URI will cause Chrome to crash. This is why large albums are divided into several zips. For the same reason, extra-large photos will be opened in new tabs (rather than zipped), and you are welcomed to download them yourself. This should rarely happen, though. :)
 
 * Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
+
+* The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
 
 * When extracting zips in Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 

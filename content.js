@@ -248,17 +248,17 @@ var album = (function() {
 
   var createInfo = function () {
     var ret = '';
-    ret += albumName + '\n\n';
+    ret += albumName + '\r\n\r\n';
     albumDesc = $.trim($('#describeAlbum').html());
     if (albumDesc.length > 0) {
-      ret += albumDesc + '\n\n';
+      ret += albumDesc + '\r\n\r\n';
     }
     var len = photos.length;
     for (var idx = 1; idx <= len; idx++) {
       for (var i = 0; i < len; i++) {
         if (photos[i].idx === idx) {
           if (photos[i].title.length > 0) {
-            ret += idx + '. ' + photos[i].title + '\n';
+            ret += idx + '. ' + photos[i].title + '\r\n';
           }
           break;
         }
