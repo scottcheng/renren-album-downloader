@@ -61,7 +61,7 @@
 
 #renren_album_downloader_btn_text {
   height: 14px;
-  width: 88px;
+  min-width: 92px;
   text-align: center;
   padding: 9px 12px;
   border-radius: 0 0 3px 0;
