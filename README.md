@@ -39,6 +39,9 @@
 * 在Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
 
 
+欢迎各种反馈 :)
+
+
 - - - - -
 
 
@@ -75,3 +78,6 @@ Known Issues
 * The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
 
 * When extracting zips in Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
+
+
+Feel free to feedback :)

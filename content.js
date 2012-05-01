@@ -30,6 +30,7 @@ var view = (function() {
 
   var
     $body,
+    $container,
     $textWrapper,
     $icon,
     $hint,
@@ -43,6 +44,7 @@ var view = (function() {
   obj.init = function() {
     state = 'init';
     $body = $('body');
+    $container = $('#container-for-pager');
     $btn = $('<div />')
       .attr('id', 'renren_album_downloader_btn');
     $info = $('<div />')
@@ -60,7 +62,7 @@ var view = (function() {
       .attr('id', 'renren_album_downloader_btn_text')
       .html(chrome.i18n.getMessage('hint'))
       .appendTo($hint);
-    $btn.appendTo($body);
+    $btn.appendTo($container);
 
     $btn.ajaxError(function(e, jqXHR, ajaxSettings) {
       chrome.extension.sendRequest({
@@ -93,10 +95,6 @@ var view = (function() {
 
   obj.getBody = function() {
     return $body;
-  };
-
-  obj.getDldBtn = function() {
-    return $btn;
   };
 
   obj.scrollToBottom = function(callback) {
