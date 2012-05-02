@@ -1,3 +1,50 @@
+This is a Chrome extension which enables you to download a Renren album with one click. 
+
+
+- - - - -
+
+
+Renren album downloader will pack up all the photos in an arbitrary Renren album in zips, and send to your disk. 
+
+
+How to use
+====
+
+1. Go to a Renren album that you want. 
+   * Not a album share page (yet). If you happen to be in a album share page, please click on the link below the album name to the real album page. 
+
+2. Click "Download album". 
+   * Using in thumb view is strongly recommended. Scrolling down to the bottom will take eternity otherwise. 
+
+3. Wait for the page to automatically scroll to the bottom, and the zips to download. 
+   * The downloader will generate multiple zips for large albums. So if Chrome prompts about downloading multiple files, please click "Allow". 
+   * Do *NOT* leave the album page (e.g. click a link on the page) or close the tab until all downloads finish. Feel free to switch to other tabs, though. 
+
+4. After all zips are on your disk, go to your default download folder, and extract all the zips to *one* folder (e.g. click "extract here"). 
+   * Do *not* extract to separate folders, that would make your life much harder. 
+   * Do not worry about mixing up zips from different albums. Just extract all of them (again, to the same folder), and do not overwrite any existing files. Different albums will go to their respective folders. 
+
+5. After extraction, you will find a folder named Renren_album_<albumId>, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
+
+
+Known Issues
+====
+
+* Downloading large files (> 1.3 MB) with data URI will cause Chrome to crash. This is why large albums are divided into several zips. For the same reason, extra-large photos will be opened in new tabs (rather than zipped), and you are welcomed to download them yourself. This should rarely happen, though. :)
+
+* Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
+
+* The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
+
+* When extracting zips in Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
+
+
+Feel free to feedback :)
+
+
+- - - - -
+
+
 想要备份朋友的珍贵照片吗？  
 想要收集那些脑残或奇葩的相册吗？  
 想要私藏暗恋的那个人的所有照片吗？  
@@ -40,44 +87,3 @@
 
 
 欢迎各种反馈 :)
-
-
-- - - - -
-
-
-Renren album downloader will pack up all the photos in an arbitrary Renren album in zips, and send to your disk. 
-
-
-How to use
-====
-
-1. Go to a Renren album that you want. 
-   * Not a album share page (yet). If you happen to be in a album share page, please click on the link below the album name to the real album page. 
-
-2. Click "Download album". 
-   * Using in thumb view is strongly recommended. Scrolling down to the bottom will take eternity otherwise. 
-
-3. Wait for the page to automatically scroll to the bottom, and the zips to download. 
-   * The downloader will generate multiple zips for large albums. So if Chrome prompts about downloading multiple files, please click "Allow". 
-   * Do *NOT* leave the album page (e.g. click a link on the page) or close the tab until all downloads finish. Feel free to switch to other tabs, though. 
-
-4. After all zips are on your disk, go to your default download folder, and extract all the zips to *one* folder (e.g. click "extract here"). 
-   * Do *not* extract to separate folders, that would make your life much harder. 
-   * Do not worry about mixing up zips from different albums. Just extract all of them (again, to the same folder), and do not overwrite any existing files. Different albums will go to their respective folders. 
-
-5. After extraction, you will find a folder named Renren_album_<albumId>, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
-
-
-Known Issues
-====
-
-* Downloading large files (> 1.3 MB) with data URI will cause Chrome to crash. This is why large albums are divided into several zips. For the same reason, extra-large photos will be opened in new tabs (rather than zipped), and you are welcomed to download them yourself. This should rarely happen, though. :)
-
-* Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
-
-* The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
-
-* When extracting zips in Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
-
-
-Feel free to feedback :)
