@@ -36,7 +36,7 @@ Known Issues
 
 * The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
 
-* When extracting zips in Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
+* When extracting zips in Mac / Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
 
 
 Feel free to feedback :)
@@ -83,7 +83,7 @@ Feel free to feedback :)
 
 * 关于zip文件名：zip的文件名是浏览器决定的（我也想把它改成相册名）。新版本的Chrome会把zip命名为“下载.zip”，而老版本的Chrome则会直接命名为“下载”。为了方便解压缩，建议使用新版本Chrome。
 
-* 在Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
+* 在Mac和Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
 
 
 欢迎各种反馈 :)
