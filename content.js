@@ -160,6 +160,7 @@ var view = (function() {
     }
     $icon
       .removeClass('default')
+      .removeClass('finished')
       .addClass('spinning');
   };
 
