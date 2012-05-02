@@ -47,6 +47,15 @@ var view = (function() {
   obj.init = function() {
     state = 'init';
     $body = $('body');
+
+    $('<link />')
+      .attr({
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: chrome.extension.getURL('style.css')
+      })
+      .appendTo('head');
+
     $btn = $('<div />')
       .attr('id', 'renren_album_downloader_btn');
     $info = $('<div />')
@@ -246,6 +255,7 @@ var Downloader = (function() {
 
   return function(info, _folderName) {
     folderName = _folderName;
+    isFinished = false;
     this.add = add;
     this.finish = finish;
 
