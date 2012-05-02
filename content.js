@@ -15,7 +15,10 @@ var conf = {
   OPEN_TO: 3000,
 
   // Reposition download button interval
-  REPOSITION_ITV: 500
+  REPOSITION_ITV: 500,
+
+  // Hide download button after finish timeout
+  HIDE_TO: 2500
 };
 
 var util = (function() {
@@ -180,7 +183,7 @@ var view = (function() {
       .empty();
     window.setTimeout(function() {
       $btn.removeClass('expanded');
-    }, 5000);
+    }, conf.HIDE_TO);
   };
 
   return obj;

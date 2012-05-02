@@ -12,6 +12,9 @@ _gaq.push(['_trackPageview']);
 })();
 
 var deparameterizeURL = function(url) {
+  if (url.indexOf('getalbumprofile') >= 0) {
+    return url;
+  }
   var len = url.length;
   for (var i = len - 1; i >= 0; i--) {
     if (url[i] === '?') {
