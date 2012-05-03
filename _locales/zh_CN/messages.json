@@ -26,6 +26,10 @@
       }
     }
   },
+  "msgZipping": {
+    "message": "正在打包...",
+    "description": "Message shown when zipping"
+  },
   "msgFinished": {
     "message": "完成!",
     "description": "Message shown when finished downloading"

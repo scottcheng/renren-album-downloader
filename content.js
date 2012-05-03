@@ -6,7 +6,7 @@ var conf = {
   THRESHOLD: 1.3 * 1024 * 1024,
   
   // Download trigger interval
-  DLD_ITV: 2500,
+  DLD_ITV: 3500,
 
   // Scroll screen interval
   SCR_ITV: 750,
@@ -15,10 +15,13 @@ var conf = {
   OPEN_TO: 3000,
 
   // Reposition download button interval
-  REPOSITION_ITV: 500,
+  REPOSITION_ITV: 250,
 
   // Hide download button after finish timeout
-  HIDE_TO: 2500
+  HIDE_TO: 2500,
+
+  // Get photo data interval
+  GET_PHOTO_ITV: 100
 };
 
 var util = (function() {
@@ -40,8 +43,7 @@ var view = (function() {
     $icon,
     $hint,
     $info,
-    $btn,
-    $friendsPanel;
+    $btn;
 
   var state = '';
 
@@ -106,24 +108,22 @@ var view = (function() {
       });
     });
 
-    $(function() {
-      $friendsPanel = $('#friends-panel');
-      if ($friendsPanel.hasClass('side-panel')) {
+    (function() {
+      var oriRight = 24;  // window.parseInt($btn.css('right'));
+      var repositionBtn = function() {
+        var $friendsPanel = $('#friends-panel');
         var $sidebar = $friendsPanel.children('div');
-        var oriRight = window.parseInt($btn.css('right'));
-        var repositionBtn = function() {
-          if ($sidebar.hasClass('actived')) {
-            // Sidebar is here, watch out
-            var newRight = $sidebar.width() + oriRight;
-            $btn.css('right', newRight);
-          } else {
-            $btn.css('right', oriRight);
-          }
-          window.setTimeout(repositionBtn, conf.REPOSITION_ITV);
-        };
-        repositionBtn();
-      }
-    });
+        if ($friendsPanel.hasClass('side-panel') && $sidebar.hasClass('actived')) {
+          // Sidebar is here, watch out
+          var newRight = $sidebar.width() + oriRight;
+          $btn.css('right', newRight);
+        } else {
+          $btn.css('right', oriRight);
+        }
+        window.setTimeout(repositionBtn, conf.REPOSITION_ITV);
+      };
+      repositionBtn();
+    })();
   };
 
   obj.getBody = function() {
@@ -172,6 +172,11 @@ var view = (function() {
     $info.html(chrome.i18n.getMessage('msgDownloading', cnt.toString()));
   };
 
+  obj.startZipping = function() {
+    state = 'zipping';
+    $info.html(chrome.i18n.getMessage('msgZipping'));
+  };
+
   obj.finish = function() {
     state = 'finished';
     $info.html(chrome.i18n.getMessage('msgFinished'));
@@ -192,7 +197,7 @@ var view = (function() {
 var Downloader = (function() {
   var
     queue = [],  // Download queue
-    isFinished = false,  // Marks if all download has been added to queue
+    isStarted = false,  // Marks if all download has been added to queue
     zip = null,
     folder = null,
     curSize = 0,
@@ -208,12 +213,14 @@ var Downloader = (function() {
   };
 
   var checkQueue = function() {
-    var zip2Dld = queue.splice(0, 1)[0];  // Get the first element
-    if (zip2Dld) {
-      var url = 'data:application/zip;base64,' + zip2Dld.generate();
-      triggerDownload(url);
+    if (isStarted) {
+      var zip2Dld = queue.splice(0, 1)[0];  // Get the first element
+      if (zip2Dld) {
+        var url = 'data:application/zip;base64,' + zip2Dld.generate();
+        triggerDownload(url);
+      }
     }
-    if (!isFinished || queue.length > 0) {
+    if (!isStarted || queue.length > 0) {
       window.setTimeout(checkQueue, conf.DLD_ITV);
     } else {
       view.finish();
@@ -252,16 +259,16 @@ var Downloader = (function() {
     folder.file(photo.filename, data, {base64: true});
   };
 
-  var finish = function() {
+  var start = function() {
     queue.push(zip);
-    isFinished = true;
+    isStarted = true;
   };
 
   return function(info, _folderName) {
     folderName = _folderName;
-    isFinished = false;
+    isStarted = false;
     this.add = add;
-    this.finish = finish;
+    this.start = start;
 
     // Create zip and folder
     createZip(info);
@@ -315,23 +322,32 @@ var album = (function() {
 
     // Get the image data of each photo and send to downloader
     var cnt = 0;  // Counts downloaded photos
-    for (var i = 0; i < len; i++) {
+    var addToQueue = function(idx) {
+      if (idx >= len) {
+        return;
+      }
       (function() {
-        var photo = photos[i];
+        var photo = photos[idx];
         $.get(photo.src, function(data) {
           cnt++;
           downloader.add(data, photo);
           if (cnt === len) {
-            downloader.finish();
+            view.startZipping();
+            downloader.start();
           }
         },
         'binary');
       })();
-    }
+      window.setTimeout(function() {
+        addToQueue(idx + 1);
+      }, conf.GET_PHOTO_ITV);
+    };
+    addToQueue(0);
   };
 
   obj.start = function() {
     // Get all the sources and put in photos array
+    photos = [];
     var cnt = 0;
     $('div.photo-list li > a.picture').each(function(idx, ele) {
       cnt++;

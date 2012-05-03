@@ -26,6 +26,10 @@
       }
     }
   },
+  "msgZipping": {
+    "message": "Generating zips...",
+    "description": "Message shown when zipping"
+  },
   "msgFinished": {
     "message": "Done!",
     "description": "Message shown when finished downloading"
