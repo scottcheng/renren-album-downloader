@@ -87,6 +87,7 @@ var view = (function() {
           url: ajaxSettings.url
         }
       });
+      downloader.onError(ajaxSettings.url);
     });
     
     $btn.click(function() {
@@ -194,14 +195,19 @@ var view = (function() {
   return obj;
 })();
 
-var Downloader = (function() {
+var downloader = (function() {
+  var obj = {};
+
   var
     queue = [],  // Download queue
     isStarted = false,  // Marks if all download has been added to queue
     zip = null,
     folder = null,
     curSize = 0,
-    folderName = '';  // Size of current zip
+    folderName = '',
+    cnt = 0,
+    len = 0,
+    errList = [];  // Size of current zip
 
   var triggerDownload = function(url) {
     var $ifrm = $('<iframe />')
@@ -236,8 +242,34 @@ var Downloader = (function() {
     }
     curSize = 0;
   };
+
+  var start = function() {
+    var errLen = errList.length;
+    if (errLen > 0) {
+      var errorsTxt = '';
+      errorsTxt += chrome.i18n.getMessage('errorTxtDesc');
+      errorsTxt += '\r\n\r\n';
+      for (var i in errList) {
+        errorsTxt += errList[i] + '\r\n';
+      }
+      folder.file('errors.txt', errorsTxt);
+    }
+    queue.push(zip);
+    view.startZipping();
+    isStarted = true;
+  };
+
+  obj.onError = function(url) {
+    len--;
+    errList.push(url);
+    if (len === cnt) {
+      start();
+    }
+  };
   
-  var add = function(data, photo) {
+  obj.add = function(data, photo) {
+    cnt++;
+
     if (data.byteLength >= conf.THRESHOLD) {
       // Man this is big! 
       window.setTimeout(function() {
@@ -247,7 +279,7 @@ var Downloader = (function() {
     }
     
     if (curSize + data.byteLength > conf.THRESHOLD) {
-      // Current zip is getting too large, download it
+      // Current zip is getting too large, push it to queue
       queue.push(zip);
 
       // Create new zip
@@ -257,23 +289,29 @@ var Downloader = (function() {
     curSize += data.byteLength;
     data = base64ArrayBuffer(data);
     folder.file(photo.filename, data, {base64: true});
+
+    if (cnt === len) {
+      start();
+    }
   };
 
-  var start = function() {
-    queue.push(zip);
-    isStarted = true;
-  };
-
-  return function(info, _folderName) {
-    folderName = _folderName;
+  obj.init = function(info, folderName_, len_) {
+    folderName = folderName_;
+    len = len_;
+    cnt = 0;
+    zip = null,
+    folder = null,
+    curSize = 0,
     isStarted = false;
-    this.add = add;
-    this.start = start;
+    queue = [];
+    errList = [];
 
     // Create zip and folder
     createZip(info);
     checkQueue();
-  }
+  };
+
+  return obj;
 })();
 
 var album = (function() {
@@ -318,7 +356,7 @@ var album = (function() {
       }
     });
 
-    var downloader = new Downloader(createInfo(), folderName);
+    downloader.init(createInfo(), folderName, len);
 
     // Get the image data of each photo and send to downloader
     var cnt = 0;  // Counts downloaded photos
@@ -331,10 +369,6 @@ var album = (function() {
         $.get(photo.src, function(data) {
           cnt++;
           downloader.add(data, photo);
-          if (cnt === len) {
-            view.startZipping();
-            downloader.start();
-          }
         },
         'binary');
       })();

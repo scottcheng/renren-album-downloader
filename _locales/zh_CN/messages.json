@@ -33,5 +33,9 @@
   "msgFinished": {
     "message": "完成!",
     "description": "Message shown when finished downloading"
+  },
+  "errorTxtDesc": {
+    "message": "由于网络原因，下列照片没有被下载：",
+    "description": "Description shown at the beginning of errors.txt"
   }
 }
