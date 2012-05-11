@@ -59,13 +59,17 @@
   background-color: #FAFAFA;
 }
 
+#renren_album_downloader_btn_text,
+#renren_album_downloader_progress_bar_text {
+  color: #444;
+}
+
 #renren_album_downloader_btn_text {
   height: 14px;
   min-width: 92px;
   text-align: center;
   padding: 9px 12px;
   border-radius: 0 0 3px 0;
-  color: #444;
   border-left: 1px solid #DDD;
   -webkit-transition: color .3s ease-in-out;
 }
@@ -167,4 +171,31 @@
   100% {
     background-color: transparent
   }
+}
+
+#renren_album_downloader_progress_bar_wrapper {
+  height: 32px;
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #EEE;
+  display: none;
+}
+
+#renren_album_downloader_progress_bar {
+  width: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #EEE;
+  z-index: 1903;
+}
+
+#renren_album_downloader_progress_bar_text {
+  text-align: center;
+  height: 100%;
+  padding-top: 9px;
+  color: #AAA;
+  z-index: 1905;
+  position: relative;
 }

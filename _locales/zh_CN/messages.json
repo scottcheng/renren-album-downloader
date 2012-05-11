@@ -17,12 +17,20 @@
     "description": "Message shown when analyzing"
   },
   "msgDownloading": {
-    "message": "正在下载$num$张照片...",
-    "description": "Message shown when downloading",
+    "message": "正在下载照片...",
+    "description": "Message shown when downloading"
+  },
+  "dldProgress": {
+    "message": "$cur$ / $ttl$",
+    "description": "Pregress bar text",
     "placeholders": {
-      "num": {
+      "cur": {
         "content": "$1",
-        "example": "45"
+        "example": "25"
+      },
+      "ttl": {
+        "content": "$2",
+        "example": "120"
       }
     }
   },

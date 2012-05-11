@@ -43,7 +43,10 @@ var view = (function() {
     $icon,
     $hint,
     $info,
-    $btn;
+    $btn,
+    $progressBar,
+    $progressBarText,
+    $progressBarWrapper;
 
   var state = '';
 
@@ -168,13 +171,36 @@ var view = (function() {
       .addClass('spinning');
   };
 
-  obj.startDownload = function(cnt) {
+  var createProgressBar = function() {
+    $progressBarWrapper = $('<div />')
+      .attr('id', 'renren_album_downloader_progress_bar_wrapper');
+    $progressBar = $('<div />')
+      .attr('id', 'renren_album_downloader_progress_bar')
+      .appendTo($progressBarWrapper);
+    $progressBarText = $('<div />')
+      .attr('id', 'renren_album_downloader_progress_bar_text')
+      .appendTo($progressBarWrapper);
+    $progressBarWrapper
+      .prependTo($btn)
+      .slideDown();
+  };
+
+  obj.startDownload = function() {
     state = 'downloading';
-    $info.html(chrome.i18n.getMessage('msgDownloading', cnt.toString()));
+    createProgressBar();
+    $info.html(chrome.i18n.getMessage('msgDownloading'));
+  };
+
+  obj.updateDownloadProgress = function(cur, ttl) {
+    $progressBarText.html(chrome.i18n.getMessage('dldProgress', [cur.toString(), ttl.toString()]));
+    $progressBar.width((cur / ttl * 100) + '%');
   };
 
   obj.startZipping = function() {
     state = 'zipping';
+    $progressBarWrapper.slideUp(function() {
+      $progressBarWrapper.remove();
+    });
     $info.html(chrome.i18n.getMessage('msgZipping'));
   };
 
@@ -262,6 +288,7 @@ var downloader = (function() {
   obj.onError = function(url) {
     len--;
     errList.push(url);
+    view.updateDownloadProgress(cnt, len);
     if (len === cnt) {
       start();
     }
@@ -290,6 +317,7 @@ var downloader = (function() {
     data = base64ArrayBuffer(data);
     folder.file(photo.filename, data, {base64: true});
 
+    view.updateDownloadProgress(cnt, len);
     if (cnt === len) {
       start();
     }

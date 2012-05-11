@@ -17,14 +17,8 @@
     "description": "Message shown when analyzing"
   },
   "msgDownloading": {
-    "message": "Fetching $num$ photos...",
-    "description": "Message shown when downloading",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "45"
-      }
-    }
+    "message": "Fetching photos...",
+    "description": "Message shown when downloading"
   },
   "msgZipping": {
     "message": "Generating zips...",
