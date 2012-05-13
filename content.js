@@ -255,6 +255,9 @@ var downloader = (function() {
     if (!isStarted || queue.length > 0) {
       window.setTimeout(checkQueue, conf.DLD_ITV);
     } else {
+      chrome.extension.sendRequest({
+        e: 'finishDownload'
+      });
       view.finish();
     }
   };

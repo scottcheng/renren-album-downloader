@@ -39,6 +39,10 @@ var reqListeners = {
     _gaq.push(['_trackEvent', 'Album', 'startDownload', deparameterizeURL(sender.tab.url), opt.num]);
   },
 
+  finishDownload: function(opt, sender) {
+    _gaq.push(['_trackEvent', 'Album', 'finishDownload', deparameterizeURL(sender.tab.url)]);
+  },
+
   ajaxError: function(opt, sender) {
     _gaq.push(['_trackEvent', 'Error', 'ajaxerror', opt.url]);
   }

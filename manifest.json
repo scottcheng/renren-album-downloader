@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "0.7.11",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description": "__MSG_extDesc__",
   "permissions": [
@@ -13,12 +13,22 @@
   ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
-      "matches": ["http://photo.renren.com/getalbumprofile.do?owner=*", "http://photo.renren.com/photo/*album-*"],
-      "js": ["lib/jquery-binary-ajax.js", "lib/jszip.js", "lib/base64ArrayBuffer.js", "content.js"],
+      "matches": [
+        "http://photo.renren.com/getalbumprofile.do?owner=*",
+        "http://photo.renren.com/photo/*album-*"
+      ],
+      "js": [
+        "lib/jquery-binary-ajax.js",
+        "lib/jszip.js",
+        "lib/base64ArrayBuffer.js",
+        "content.js"
+      ],
       "run_at": "document_end"
     }
   ],
