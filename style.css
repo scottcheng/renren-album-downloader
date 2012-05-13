@@ -27,7 +27,7 @@
   border-radius: 0 0 3px 3px;
   background-color: #FFF;
   -webkit-user-select: none;
-  -webkit-transition: top .3s ease-in-out, right .3s ease-in-out;;
+  -webkit-transition: top .3s ease-in-out, right .3s ease-in-out;
 }
 
 #renren_album_downloader_btn:hover {
@@ -189,6 +189,7 @@
   left: 0;
   background-color: #EEE;
   z-index: 1903;
+  -webkit-transition: width .05s ease-in-out;
 }
 
 #renren_album_downloader_progress_bar_text {
