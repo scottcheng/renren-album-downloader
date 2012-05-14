@@ -362,17 +362,20 @@ var album = (function() {
 
   var createInfo = function () {
     var ret = '';
-    ret += albumName + '\r\n\r\n';
+    var br = '\r\n';
+    var dbbr = br + br;
+    ret += albumName + dbbr;
     albumDesc = $.trim($('#describeAlbum').html());
     if (albumDesc.length > 0) {
-      ret += albumDesc + '\r\n\r\n';
+      ret += albumDesc + dbbr;
     }
+    ret += window.location.origin + window.location.pathname + dbbr;
     var len = photos.length;
     for (var idx = 1; idx <= len; idx++) {
       for (var i = 0; i < len; i++) {
         if (photos[i].idx === idx) {
           if (photos[i].title.length > 0) {
-            ret += idx + '. ' + photos[i].title + '\r\n';
+            ret += idx + '. ' + photos[i].title + br;
           }
           break;
         }
