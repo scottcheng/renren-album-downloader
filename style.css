@@ -189,7 +189,6 @@
   left: 0;
   background-color: #EEE;
   z-index: 1903;
-  -webkit-transition: width .05s ease-in-out;
 }
 
 #renren_album_downloader_progress_bar_text {
