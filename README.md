@@ -1,3 +1,6 @@
+Renren Album Downloader
+====
+
 This is a Chrome extension which enables you to download a Renren album with one click. 
 
 
@@ -24,7 +27,7 @@ How to use
    * Do *not* extract to separate folders, that would make your life much harder. 
    * Do not worry about mixing up zips from different albums. Just extract all of them (again, to the same folder), and do not overwrite any existing files. Different albums will go to their respective folders. 
 
-5. After extraction, you will find a folder named Renren_album_<albumId>, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
+5. After extraction, you will find a folder named renren-album-<albumId>, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
 
 
 Known Issues
@@ -69,7 +72,7 @@ Feel free to feedback :)
    * 请不要解压到不同的位置（如解压到各自的文件夹），不然你会遇到麻烦的。
    * 不用担心把来自不同相册的zip混在一起。把它们一起解压（同样需要解压到同一个文件夹），不同相册的照片就会进入各自的文件夹了。
 
-5. 解压后，你会看到一个名字叫Renren_album_<albumId>的文件夹，里面有：
+5. 解压后，你会看到一个名字叫renren-album-<albumId>的文件夹，里面有：
    * 相册里所有的照片，按照原相册中的顺序命名；
    * info.txt，里面有相册名、相册描述，以及所有照片的描述。
 
