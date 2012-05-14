@@ -1,7 +1,7 @@
 Renren Album Downloader
 ====
 
-This is a Chrome extension which enables you to download a Renren album with one click. 
+A Chrome extension which enables you to download a Renren album with one click
 
 
 - - - - -

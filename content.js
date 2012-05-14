@@ -185,9 +185,10 @@ var view = (function() {
       .slideDown();
   };
 
-  obj.startDownload = function() {
+  obj.startDownload = function(ttl) {
     state = 'downloading';
     createProgressBar();
+    this.updateDownloadProgress(0, ttl);
     $info.html(chrome.i18n.getMessage('msgDownloading'));
   };
 
@@ -196,16 +197,17 @@ var view = (function() {
     $progressBar.width((cur / ttl * 100) + '%');
   };
 
-  obj.startZipping = function() {
+  obj.startZipping = function(ttl) {
     state = 'zipping';
-    $progressBarWrapper.slideUp(function() {
-      $progressBarWrapper.remove();
-    });
+    this.updateDownloadProgress(0, ttl);
     $info.html(chrome.i18n.getMessage('msgZipping'));
   };
 
   obj.finish = function() {
     state = 'finished';
+    $progressBarWrapper.slideUp(function() {
+      $progressBarWrapper.remove();
+    });
     $info.html(chrome.i18n.getMessage('msgFinished'));
     disabled = false;
     $btn.removeClass('disabled');
@@ -233,6 +235,7 @@ var downloader = (function() {
     folderName = '',
     cnt = 0,
     len = 0,
+    zipLen = 0,
     errList = [];  // Size of current zip
 
   var triggerDownload = function(url) {
@@ -251,6 +254,7 @@ var downloader = (function() {
         var url = 'data:application/zip;base64,' + zip2Dld.generate();
         triggerDownload(url);
       }
+      view.updateDownloadProgress(zipLen - queue.length, zipLen);
     }
     if (!isStarted || queue.length > 0) {
       window.setTimeout(checkQueue, conf.DLD_ITV);
@@ -284,7 +288,8 @@ var downloader = (function() {
       folder.file('errors.txt', errorsTxt);
     }
     queue.push(zip);
-    view.startZipping();
+    zipLen = queue.length;
+    view.startZipping(zipLen);
     isStarted = true;
   };
 
