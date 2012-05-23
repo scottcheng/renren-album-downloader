@@ -189,11 +189,12 @@ var view = (function() {
     $progressBar.width((cur / ttl * 100) + '%');
   };
 
-  obj.startZipping = function() {
+  obj.startZipping = function(callback) {
     state = 'zipping';
     $info.html(chrome.i18n.getMessage('msgZipping'));
     $progressBarWrapper.slideUp(function() {
       $progressBarWrapper.remove();
+      callback && callback();
     });
   };
 
@@ -273,13 +274,14 @@ var downloader = (function() {
       }
       folder.file('errors.txt', errorsTxt);
     }
-    view.startZipping();
-    var uri = 'data:application/zip;base64,' + zip.generate();
-    triggerDownload(uri, zipName);
-    chrome.extension.sendRequest({
-      e: 'finishDownload'
+    view.startZipping(function() {
+      var uri = 'data:application/zip;base64,' + zip.generate();
+      triggerDownload(uri, zipName);
+      chrome.extension.sendRequest({
+        e: 'finishDownload'
+      });
+      view.finish();
     });
-    view.finish();
   };
 
   obj.onError = function(url) {
