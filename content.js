@@ -2,17 +2,8 @@
 // Content script
 
 var conf = {
-  // Size threshold in byte
-  THRESHOLD: 1.3 * 1024 * 1024,
-  
-  // Download trigger interval
-  DLD_ITV: 3500,
-
   // Scroll screen interval
   SCR_ITV: 750,
-
-  // Open new window for huge photo timeout
-  OPEN_TO: 3000,
 
   // Reposition download button interval
   REPOSITION_ITV: 250,
@@ -188,9 +179,9 @@ var view = (function() {
 
   obj.startDownload = function(ttl) {
     state = 'downloading';
+    $info.html(chrome.i18n.getMessage('msgDownloading'));
     createProgressBar();
     this.updateDownloadProgress(0, ttl);
-    $info.html(chrome.i18n.getMessage('msgDownloading'));
   };
 
   obj.updateDownloadProgress = function(cur, ttl) {
@@ -198,17 +189,16 @@ var view = (function() {
     $progressBar.width((cur / ttl * 100) + '%');
   };
 
-  obj.startZipping = function(ttl) {
+  obj.startZipping = function() {
     state = 'zipping';
-    this.updateDownloadProgress(0, ttl);
     $info.html(chrome.i18n.getMessage('msgZipping'));
+    $progressBarWrapper.slideUp(function() {
+      $progressBarWrapper.remove();
+    });
   };
 
   obj.finish = function() {
     state = 'finished';
-    $progressBarWrapper.slideUp(function() {
-      $progressBarWrapper.remove();
-    });
     $info.html(chrome.i18n.getMessage('msgFinished'));
     disabled = false;
     $btn.removeClass('disabled');
@@ -228,16 +218,13 @@ var downloader = (function() {
   var obj = {};
 
   var
-    queue = [],  // Download queue
-    isStarted = false,  // Marks if all download has been added to queue
     zip = null,
     folder = null,
-    curSize = 0,
+    zipName = '',
     folderName = '',
     cnt = 0,
     len = 0,
-    zipLen = 0,
-    errList = [];  // Size of current zip
+    errList = [];
 
   var dataURI2Blob = function(dataURI) {
     // by @Stoive from StackOverflow
@@ -263,26 +250,7 @@ var downloader = (function() {
   };
 
   var triggerDownload = function(uri, filename) {
-    saveAs(dataURI2Blob(uri), filename)
-  };
-
-  var checkQueue = function() {
-    if (isStarted) {
-      var zip2Dld = queue.splice(0, 1)[0];  // Get the first element
-      if (zip2Dld) {
-        var uri = 'data:application/zip;base64,' + zip2Dld.generate();
-        triggerDownload(uri, 'download-' + (zipLen - queue.length) + '.zip');
-      }
-      view.updateDownloadProgress(zipLen - queue.length, zipLen);
-    }
-    if (!isStarted || queue.length > 0) {
-      window.setTimeout(checkQueue, conf.DLD_ITV);
-    } else {
-      chrome.extension.sendRequest({
-        e: 'finishDownload'
-      });
-      view.finish();
-    }
+    saveAs(dataURI2Blob(uri), filename);
   };
 
   var createZip = function(info) {
@@ -292,10 +260,9 @@ var downloader = (function() {
     if (info) {
       folder.file('info.txt', info);
     }
-    curSize = 0;
   };
 
-  var start = function() {
+  var startZipping = function() {
     var errLen = errList.length;
     if (errLen > 0) {
       var errorsTxt = '';
@@ -306,10 +273,13 @@ var downloader = (function() {
       }
       folder.file('errors.txt', errorsTxt);
     }
-    queue.push(zip);
-    zipLen = queue.length;
-    view.startZipping(zipLen);
-    isStarted = true;
+    view.startZipping();
+    var uri = 'data:application/zip;base64,' + zip.generate();
+    triggerDownload(uri, zipName);
+    chrome.extension.sendRequest({
+      e: 'finishDownload'
+    });
+    view.finish();
   };
 
   obj.onError = function(url) {
@@ -317,53 +287,33 @@ var downloader = (function() {
     errList.push(url);
     view.updateDownloadProgress(cnt, len);
     if (len === cnt) {
-      start();
+      startZipping();
     }
   };
   
   obj.add = function(data, photo) {
     cnt++;
 
-    if (data.byteLength >= conf.THRESHOLD) {
-      // Man this is big! 
-      window.setTimeout(function() {
-        window.open(photo.src);
-      }, conf.OPEN_TO);
-      return;
-    }
-    
-    if (curSize + data.byteLength > conf.THRESHOLD) {
-      // Current zip is getting too large, push it to queue
-      queue.push(zip);
-
-      // Create new zip
-      createZip();
-    }
-
-    curSize += data.byteLength;
     data = base64ArrayBuffer(data);
     folder.file(photo.filename, data, {base64: true});
 
     view.updateDownloadProgress(cnt, len);
     if (cnt === len) {
-      start();
+      startZipping();
     }
   };
 
-  obj.init = function(info, folderName_, len_) {
+  obj.init = function(info, folderName_, len_, zipName_) {
     folderName = folderName_;
     len = len_;
+    zipName = zipName_;
     cnt = 0;
     zip = null,
     folder = null,
-    curSize = 0,
-    isStarted = false;
-    queue = [];
     errList = [];
 
     // Create zip and folder
     createZip(info);
-    checkQueue();
   };
 
   return obj;
@@ -414,7 +364,7 @@ var album = (function() {
       }
     });
 
-    downloader.init(createInfo(), folderName, len);
+    downloader.init(createInfo(), folderName, len, albumName + '.zip');
 
     // Get the image data of each photo and send to downloader
     var cnt = 0;  // Counts downloaded photos

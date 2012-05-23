@@ -9,7 +9,7 @@ See in [Chrome Web Store](https://chrome.google.com/webstore/detail/enmkdplopmpk
 - - - - -
 
 
-Renren album downloader will pack up all the photos in an arbitrary Renren album in zips, and send to your disk. 
+Renren album downloader will pack up all the photos in an arbitrary Renren album in a zip, and send to your disk. 
 
 
 How to use
@@ -21,29 +21,16 @@ How to use
 2. Click "Download album". 
    * Using in thumb view is strongly recommended. Scrolling down to the bottom will take eternity otherwise. 
 
-3. Wait for the page to automatically scroll to the bottom, and the zips to download. 
-   * The downloader will generate multiple zips for large albums. So if Chrome prompts about downloading multiple files, please click "Allow". 
-   * Do *NOT* leave the album page (e.g. click a link on the page) or close the tab until all downloads finish. Feel free to switch to other tabs, though. 
+3. Wait for the page to automatically scroll to the bottom, and the zip to download. 
+   * Do *NOT* leave the album page (e.g. click a link on the page) or close the tab until the download finish. Feel free to switch to other tabs, though. 
 
-4. After all zips are on your disk, go to your default download folder, and extract all the zips to *one* folder (e.g. click "extract here"). 
-   * Do *not* extract to separate folders, that would make your life much harder. 
-   * Do not worry about mixing up zips from different albums. Just extract all of them (again, to the same folder), and do not overwrite any existing files. Different albums will go to their respective folders. 
-
-5. After extraction, you will find a folder named renren-album-${albumId}, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
+4. Inside of the zip, you will find a folder named renren-album-${albumId}, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the album name as well as titles for all the photos (if appropriate). 
 
 
 Known Issues
 ====
 
-* Does *not* work with Chrome 19. 
-
-* Downloading large files (> 1.3 MB) with data URI will cause Chrome to crash. This is why large albums are divided into several zips. For the same reason, extra-large photos will be opened in new tabs (rather than zipped), and you are welcomed to download them yourself. This should rarely happen, though. :)
-
 * Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
-
-* The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
-
-* When extracting zips in Mac / Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
 
 
 - - - - -
@@ -66,14 +53,9 @@ Known Issues
    * 强烈建议在“缩略图”模式下使用，否则滚动到页面末尾会花很久。
 
 3. 页面会滚动到底，然后开始下载zip。
-   * 如果相册很大，插件会生成多个zip下载。因此，如果Chrome提示需要下载多个文件，请点击允许。
    * 在下载未完成之前，你可以随意切换到其他tab，但是请不要关闭相册页面，或是点击相册页面上的链接进入其他页面。
 
-4. 所有zip下载完成之后，进入下载文件夹，将所有zip解压到同一文件夹（比如解压到当前位置）。
-   * 请不要解压到不同的位置（如解压到各自的文件夹），不然你会遇到麻烦的。
-   * 不用担心把来自不同相册的zip混在一起。把它们一起解压（同样需要解压到同一个文件夹），不同相册的照片就会进入各自的文件夹了。
-
-5. 解压后，你会看到一个名字叫renren-album-${albumId}的文件夹，里面有：
+4. 在zip文件中，你会看到一个名字叫renren-album-${albumId}的文件夹，里面有：
    * 相册里所有的照片，按照原相册中的顺序命名；
    * info.txt，里面有相册名、相册描述，以及所有照片的描述。
 
@@ -81,12 +63,4 @@ Known Issues
 已知的问题
 ====
 
-* 暂不支持Chrome 19。
-
-* 用data URI下载大文件（> 1.3 MB）会导致Chrome崩溃。因此，大的相册被分成了多个zip。由于同样的原因，过于大的照片会被显示在新tab里（而不是塞到zip里）。
-
 * 用中文命名文件或文件夹有可能会导致zip出错。因此，目前把所有可能出现中文的内容（相册标题、相册描述、照片描述）全部塞到了info.txt中，而不是直接作为文件名。
-
-* 关于zip文件名：zip的文件名是浏览器决定的（我也想把它改成相册名）。新版本的Chrome会把zip命名为“下载.zip”，而老版本的Chrome则会直接命名为“下载”。为了方便解压缩，建议使用新版本Chrome。
-
-* 在Mac和Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
