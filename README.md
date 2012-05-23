@@ -3,6 +3,8 @@ Renren Album Downloader
 
 A Chrome extension which enables you to download a Renren album with one click
 
+See in [Chrome Web Store][https://chrome.google.com/webstore/detail/enmkdplopmpkfnlefdldpkbcmihgcdec]
+
 
 - - - - -
 
@@ -27,11 +29,13 @@ How to use
    * Do *not* extract to separate folders, that would make your life much harder. 
    * Do not worry about mixing up zips from different albums. Just extract all of them (again, to the same folder), and do not overwrite any existing files. Different albums will go to their respective folders. 
 
-5. After extraction, you will find a folder named renren-album-<albumId>, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
+5. After extraction, you will find a folder named renren-album-${albumId}, inside of which all the photos are named with its index in the album. Also there is an info.txt, where you can find the real album name as well as titles for all the photos (if appropriate). You may rename the folder to the album name if you want to. 
 
 
 Known Issues
 ====
+
+* Does *not* work with Chrome 19. 
 
 * Downloading large files (> 1.3 MB) with data URI will cause Chrome to crash. This is why large albums are divided into several zips. For the same reason, extra-large photos will be opened in new tabs (rather than zipped), and you are welcomed to download them yourself. This should rarely happen, though. :)
 
@@ -40,9 +44,6 @@ Known Issues
 * The zip filenames are decided by Chrome. New versions of Chrome would make them "download.zip", while old versions will make only "download". To make it easier to extract the zips, new versions of Chrome is recommended. 
 
 * When extracting zips in Mac / Ubuntu, folders with the same name will not merge, but will become different folders with unique names. 
-
-
-Feel free to feedback :)
 
 
 - - - - -
@@ -72,13 +73,15 @@ Feel free to feedback :)
    * 请不要解压到不同的位置（如解压到各自的文件夹），不然你会遇到麻烦的。
    * 不用担心把来自不同相册的zip混在一起。把它们一起解压（同样需要解压到同一个文件夹），不同相册的照片就会进入各自的文件夹了。
 
-5. 解压后，你会看到一个名字叫renren-album-<albumId>的文件夹，里面有：
+5. 解压后，你会看到一个名字叫renren-album-${albumId}的文件夹，里面有：
    * 相册里所有的照片，按照原相册中的顺序命名；
    * info.txt，里面有相册名、相册描述，以及所有照片的描述。
 
 
 已知的问题
 ====
+
+* 暂不支持Chrome 19。
 
 * 用data URI下载大文件（> 1.3 MB）会导致Chrome崩溃。因此，大的相册被分成了多个zip。由于同样的原因，过于大的照片会被显示在新tab里（而不是塞到zip里）。
 
@@ -87,6 +90,3 @@ Feel free to feedback :)
 * 关于zip文件名：zip的文件名是浏览器决定的（我也想把它改成相册名）。新版本的Chrome会把zip命名为“下载.zip”，而老版本的Chrome则会直接命名为“下载”。为了方便解压缩，建议使用新版本Chrome。
 
 * 在Mac和Ubuntu下，从zip中解压出的同名文件夹不会合并，而会成为不同的文件夹。
-
-
-欢迎各种反馈 :)

@@ -92,6 +92,17 @@ var view = (function() {
       });
       downloader.onError(ajaxSettings.url);
     });
+
+
+    // Disable in Chrome 19
+    if (parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf('Chrome') + 7)) == 19) {
+      disabled = true;
+      $btn
+        .addClass('disabled')
+        .attr('title', '暂不支持Chrome 19');
+    }
+    // TODO
+
     
     $btn.click(function() {
       if (disabled) {
