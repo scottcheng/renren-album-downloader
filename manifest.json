@@ -27,6 +27,7 @@
         "lib/jquery-binary-ajax.js",
         "lib/jszip.js",
         "lib/base64ArrayBuffer.js",
+        "lib/FileSaver.min.js",
         "content.js"
       ],
       "run_at": "document_end"

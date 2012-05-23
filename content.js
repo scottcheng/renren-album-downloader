@@ -94,16 +94,6 @@ var view = (function() {
     });
 
 
-    // Disable in Chrome 19
-    if (parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf('Chrome') + 7)) == 19) {
-      disabled = true;
-      $btn
-        .addClass('disabled')
-        .attr('title', '暂不支持Chrome 19');
-    }
-    // TODO
-
-    
     $btn.click(function() {
       if (disabled) {
         return;
@@ -249,21 +239,39 @@ var downloader = (function() {
     zipLen = 0,
     errList = [];  // Size of current zip
 
-  var triggerDownload = function(url) {
-    var $ifrm = $('<iframe />')
-      .css('display', 'none')
-      .attr('src', url)
-      .height(0)
-      .width(0)
-      .appendTo(view.getBody());
+  var dataURI2Blob = function(dataURI) {
+    // by @Stoive from StackOverflow
+
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    var bb = new (window.BlobBuilder || window.WebKitBlobBuilder);
+    bb.append(ab);
+    return bb.getBlob(mimeString);
+  };
+
+  var triggerDownload = function(uri, filename) {
+    saveAs(dataURI2Blob(uri), filename)
   };
 
   var checkQueue = function() {
     if (isStarted) {
       var zip2Dld = queue.splice(0, 1)[0];  // Get the first element
       if (zip2Dld) {
-        var url = 'data:application/zip;base64,' + zip2Dld.generate();
-        triggerDownload(url);
+        var uri = 'data:application/zip;base64,' + zip2Dld.generate();
+        triggerDownload(uri, 'download-' + (zipLen - queue.length) + '.zip');
       }
       view.updateDownloadProgress(zipLen - queue.length, zipLen);
     }
