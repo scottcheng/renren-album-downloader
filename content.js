@@ -340,7 +340,11 @@ var album = (function() {
     if (albumDesc.length > 0) {
       ret += albumDesc + dbbr;
     }
-    ret += window.location.origin + window.location.pathname + dbbr;
+    ret += window.location.origin + window.location.pathname
+    if (window.location.pathname === '/getalbumprofile.do') {
+      ret += window.location.search;
+    }
+    ret += dbbr;
     var len = photos.length;
     for (var idx = 1; idx <= len; idx++) {
       for (var i = 0; i < len; i++) {

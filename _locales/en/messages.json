@@ -21,13 +21,14 @@
     "description": "Message shown when downloading"
   },
   "msgZipping": {
-    "message": "Generating zips...",
+    "message": "Zipping...",
     "description": "Message shown when zipping"
   },
   "msgFinished": {
     "message": "Done!",
     "description": "Message shown when finished downloading"
   },
+  
   "errorTxtDesc": {
     "message": "These photos are not downloaded due to network failure:",
     "description": "Description shown at the beginning of errors.txt"
