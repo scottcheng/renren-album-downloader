@@ -30,15 +30,17 @@ How to use
 Known Issues
 ====
 
+* Could crash Chrome when downloading *huge* albums, say 2 MB gifs * 120. 
+
 * Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.txt, rather than used in folder / file names. 
 
 
 - - - - -
 
 
-想要备份朋友的珍贵照片吗？  
-想要收集那些脑残或奇葩的相册吗？  
-想要私藏暗恋的那个人的所有照片吗？  
+想要备份朋友的珍贵照片吗？
+想要收集那些脑残或奇葩的相册吗？
+想要私藏暗恋的那个人的所有照片吗？
 
 人人相册下载器会把相册里的所有照片打包成zip，然后送到你的硬盘上。
 
@@ -62,5 +64,7 @@ Known Issues
 
 已知的问题
 ====
+
+* 下载巨大相册的时候可能导致Chrome crash，比如120张2MB的gif。
 
 * 用中文命名文件或文件夹有可能会导致zip出错。因此，目前把所有可能出现中文的内容（相册标题、相册描述、照片描述）全部塞到了info.txt中，而不是直接作为文件名。

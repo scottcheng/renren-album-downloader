@@ -12,7 +12,9 @@ var conf = {
   HIDE_TO: 2500,
 
   // Get photo data interval
-  GET_PHOTO_ITV: 100
+  GET_PHOTO_ITV_H: 1500,
+  GET_PHOTO_ITV_L: 150,
+  GET_PHOTO_ITV: 150
 };
 
 var util = (function() {
@@ -296,8 +298,8 @@ var downloader = (function() {
   obj.add = function(data, photo) {
     cnt++;
 
-    data = base64ArrayBuffer(data);
-    folder.file(photo.filename, data, {base64: true});
+    var base64Data = base64ArrayBuffer(data);
+    folder.file(photo.filename, base64Data, {base64: true});
 
     view.updateDownloadProgress(cnt, len);
     if (cnt === len) {
@@ -340,7 +342,7 @@ var album = (function() {
     if (albumDesc.length > 0) {
       ret += albumDesc + dbbr;
     }
-    ret += window.location.origin + window.location.pathname
+    ret += window.location.origin + window.location.pathname;
     if (window.location.pathname === '/getalbumprofile.do') {
       ret += window.location.search;
     }
@@ -383,6 +385,10 @@ var album = (function() {
         $.get(photo.src, function(data) {
           cnt++;
           downloader.add(data, photo);
+
+          // Adjust GET_PHOTO_ITV
+          conf.GET_PHOTO_ITV = data.byteLength > 1048576 ? conf.GET_PHOTO_ITV_H : conf.GET_PHOTO_ITV_L;
+          data = null;
         },
         'binary');
       })();
