@@ -48,11 +48,9 @@ var reqListeners = {
   }
 };
 
-chrome.extension.onRequest.addListener(
-  function(req, sender, sendResponse) {
-    var func = reqListeners[req.e];
-    var ret = func(req.opt, sender);
-    if (ret) {
-      sendResponse();
-    }
+chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
+  var func = reqListeners[req.e];
+  var ret;
+  func && (ret = func(req.opt, sender));
+  ret && sendResponse(ret);
 });

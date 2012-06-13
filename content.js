@@ -403,7 +403,13 @@ var album = (function() {
     // Get all the sources and put in photos array
     photos = [];
     var cnt = 0;
-    $('div.photo-list li > a.picture').each(function(idx, ele) {
+    var $photoPages = $('div.photo-list li > a.picture');
+    if ($photoPages.length === 0) {
+      // No photos to download
+      // TODO
+      return;
+    }
+    $photoPages.each(function(idx, ele) {
       cnt++;
       var picPageHref = $(ele).attr('href');  // URL of the photo page
       (function() {
