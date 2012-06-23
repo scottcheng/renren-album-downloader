@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>${title}</title>
+    <style>
+
+* {
+  font-family: sans-serif, "Microsoft Yahei";
+}
+
+::selection {
+  background: #FFCB84;
+}
+
+body {
+  margin: 0;
+  padding: 72px 0 0;
+  background-repeat: repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8yMy8xMuJtfrkAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABUElEQVRYhc2YQRaDIAxEIfveofc/lZuewK6lG23DEI1aSJLtEAzwmRfJ5f0qSYp5SunxFKUuellSyqTmyyO2yefp+ON39a04Lb8siZpBfOXroENdy0ed75yWnylRNUg6Fr5SSeeL2NO3fOlYle/nL4NBmMOgSgzAXFtgMOZQz6LN8B2Rjo3viKTzHZGOVZuf6XKBfNBeDGIO9TE++AdzOD9FYw7nJ2+fs/PBTsxh9PHBjsy1BQZjDhch24yhz43zwUHMoX7PBwcyh7reDxoz1/qgs89pPnzeB42Ywzjng4bMtQUGY+5aP2jgc1q/ue+DTsyhLlfgyBzqrQ86Myf7oKPPaT78YzAIcxhUFReAubbAYMyhTtGYwzsx7r/4X3092eN+0IE5XpzeDzowh3dCfx80Zg7vhN374M1+s+4HAzDXFhiMuWv9YId+7jD/RL/5AT1o6kmMQO6lAAAAAElFTkSuQmCC);
+}
+
+a {
+  -webkit-transition: color .3s ease-in-out;
+  text-decoration: none;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  padding: 6px 0 0;
+  margin: 0;
+  box-shadow: 0 0 9px 3px rgba(203, 101, 0, .5);
+  color: #FFF3E5;
+  text-align: center;
+  background-image: -webkit-radial-gradient(85% 15%, circle cover, #FFCB84, #FF990A);
+}
+
+header a {
+  color: #FFF3E5;
+}
+
+header a:hover {
+  color: #CB6500;
+}
+
+header img {
+  vertical-align: bottom;
+  margin-right: 9px;
+  box-shadow: 0 0 6px rgba(255, 244, 229, .5);
+}
+
+#wrapper {
+  width: 720px;
+  margin: 0 auto;
+  color: #CB6500;
+}
+
+#wrapper a {
+  color: #CB6500;
+}
+
+#wrapper a:hover {
+  color: #FF990A;
+}
+
+#albumLink {
+  float: right;
+  margin-left: 12px;
+}
+
+#photos {
+  padding: 0;
+}
+
+#photos li {
+  list-style: none;
+  margin: 2em 0;
+}
+
+#photos img.photo,
+#photos span.photo-title {
+  display: block;
+}
+
+#photos img.photo {
+  border: 1px solid #FF990A;
+  margin-left: -1px;
+  box-shadow: 0 0 9px rgba(203, 101, 0, .2);
+  margin: .75em auto;
+}
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a href="https://chrome.google.com/webstore/detail/enmkdplopmpkfnlefdldpkbcmihgcdec" target="_blank">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAYCAYAAAAVibZIAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8yMy8xMuJtfrkAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAD1ElEQVQ4jZ2VS2hdVRSGv33OPrn35iZtbprEGqsxKTVpHjYmbWgCpsVHFQVtwYEEooNSB7YDdVB14kCQoiMFxTqqFiKKoGhARZSWWpqAQilkYETa0BZrSnLzuM/z3A7WyeMGWqoLNpyzz97//tf/r7WPOn+IVp3mc12T2AsYMPz3UAAqyLsTQYERbacZax09sae2fT8ErvofiBI6SW76zMDl02+OaWdT9eDm7btJ3BwHrwjKAhMBESh9h4gGbI3VMmw7dbVDGiwTeQVF9g8BNSHYSdApKM+DnbgzUMsmSvWC0sZamQMg8iG5BQZPwPBH0DwMQTFesG6YeGycj8Gs1cNCD/wcZDog0wlOGpr3CWjoQehDUIZyFoK8rHUX428ehG58kEKLc0ZYKgv+mYTZCUhvgyvfyMLIl03Khh3Pw9YhkenKd3DtJ3CqAXuVra5gaiIoz8Gvr4qWfk609ZahahPsfQcad0NQEAINvTI/fRpSmRhUoYWogShOQ1lgAohiZkEBUKLzll3gzhPXpbDveRnmLkJ2alVWay19b22YQNKLPCgvQO9r0NAH3uIaIMSlp6DzJSGBAVWRvg9BCcIy2CmwHXCX4L4nYftz4GYrAVfCz8NdeySLoAiWXue+n5PU7z0gwpfnRc/eV8R1AHWLhlM2tB2EqZPgFmJQEwj1fSfhkVNw4AvQaWh9Buo6ICzFdRxIY2yMsARNA9B1BIjikvLysPMwND8Mhb+htgUePSXOesuStlMDf30ppra/IHJUMDeQqAe7Co2JwK6CbU/HejrgF6CxXzZFoRhiJ8W8C8chUQetB8F4cj9YNngLUj2oGNSpgdxVKN6MHY11Ks/LyOyUd78AlgMTb0DhBugklGbl4IYe6UIToolcSGTg7i7wS2vZVG2GqY/luakfvCVofEgcvvQBTH0oYPnr0HccWp6Cmd8gLMWarme3EpaW3t46uGZQdgp6jonGl96Xahl6F9pHYfFPeZfev12YeKEBXQ2zk3DxPXjiK5HCSUP3Ufj+WWgfgUQHwG1AjRFDijfAqpI5nYIr43DmCOz/RC6an0fh+i/QdXh1661Bw7JcGDPj0P4i+MvSqvWdcPlrMSl04eoP0PAg1HdDdk6UA6MsJwk6UTkUcM8w+IuwNC2l1rQLHvsUMjtg5lu49iM0dMPjn0HdA1i2BRil/UIwsTR9dqDWRDaBW8lWV0N1P5x9C/peB78oDdF2FH5/W8xsOwZLRVicIDd9LvTzwaQ6f4j77TRjTtoZYuP/2UQCUlwAbUl1mEhKMMhLFeiUXDzKUn7evxAWGfkXTv2U499BOAwAAAAASUVORK5CYII=" />
+        <span id="header-text">${header}</span>
+      </a>
+    </header>
+    <section id="wrapper">
+      <p id="albumLink"><a href="${url}" target="_blank">${urlText}</a></p>
+      <h1>${title}</h1>
+      <p>${desc}</p>
+      <ul id="photos">
+      {{each(i, photo) photos}}
+        <li>
+          <a href="${photo.pageUrl}" target="_blank">
+            <img src="${photo.filename}" class="photo" />
+            <span class="photo-title">${photo.title}</span>
+          </a>
+        </li>
+      {{/each}}
+      </ul>
+    </section>
+
+  </body>
+
+</html>

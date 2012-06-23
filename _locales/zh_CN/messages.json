@@ -46,5 +46,10 @@
   "errorTxtDesc": {
     "message": "由于网络原因，下列照片没有被下载：",
     "description": "Description shown at the beginning of errors.txt"
+  },
+
+  "infoAlbumLinkText": {
+    "message": "浏览原相册",
+    "description": "Text on original album's link in info.html"
   }
 }

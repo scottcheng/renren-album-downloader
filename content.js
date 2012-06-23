@@ -100,6 +100,16 @@ var view = (function() {
 
       view.start();
 
+      // Switch to thumb view if in comment view
+      var $commentViewBtn = $('#tabview_3_3');
+      if ($commentViewBtn.hasClass('select-btn')) {
+        var $thumbViewBtn = $('#tabview_3_1');
+        // Fire click on thumb view button
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent('click', true, true);
+        $thumbViewBtn[0].dispatchEvent(evt);
+      }
+
       view.scrollToBottom(function() {
         // Start getting photos
         album.start();
@@ -237,7 +247,7 @@ var downloader = (function() {
     var byteString = atob(dataURI.split(',')[1]);
 
     // separate out the mime component
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
     // write the bytes of the string to an ArrayBuffer
     var ab = new ArrayBuffer(byteString.length);
@@ -261,7 +271,16 @@ var downloader = (function() {
     // Create folder to put picture into
     folder = zip.folder(folderName);
     if (info) {
-      folder.file('info.txt', info);
+
+      $.ajax({
+        async: false,
+        url: chrome.extension.getURL('info.tmpl.html'),
+        success: function(template) {
+          var $infoHTML = $.tmpl(template, info);
+          folder.file('info.html', $('<div />').append($infoHTML).remove().html());
+        }
+      });
+
     }
   };
 
@@ -271,7 +290,7 @@ var downloader = (function() {
       var errorsTxt = '';
       errorsTxt += chrome.i18n.getMessage('errorTxtDesc');
       errorsTxt += '\r\n\r\n';
-      for (var i in errList) {
+      for (var i = 0; i < errLen; i++) {
         errorsTxt += errList[i] + '\r\n';
       }
       folder.file('errors.txt', errorsTxt);
@@ -334,26 +353,25 @@ var album = (function() {
     photos = [];
 
   var createInfo = function () {
-    var ret = '';
-    var br = '\r\n';
-    var dbbr = br + br;
-    ret += albumName + dbbr;
-    albumDesc = $.trim($('#describeAlbum').html());
-    if (albumDesc.length > 0) {
-      ret += albumDesc + dbbr;
+    var ret = {
+      header: chrome.i18n.getMessage('extName'),
+      title: albumName,
+      desc: albumDesc,
+      url: window.location.href,
+      urlText: chrome.i18n.getMessage('infoAlbumLinkText'),
+      photos: []
     }
-    ret += window.location.origin + window.location.pathname;
-    if (window.location.pathname === '/getalbumprofile.do') {
-      ret += window.location.search;
-    }
-    ret += dbbr;
     var len = photos.length;
     for (var idx = 1; idx <= len; idx++) {
       for (var i = 0; i < len; i++) {
+        // Double loop to make sure photos are pushed in order
         if (photos[i].idx === idx) {
-          if (photos[i].title.length > 0) {
-            ret += idx + '. ' + photos[i].title + br;
-          }
+          ret.photos.push({
+            idx: idx,
+            title: photos[i].title,
+            filename: photos[i].filename,
+            pageUrl: photos[i].pageUrl
+          });
           break;
         }
       }
@@ -400,6 +418,14 @@ var album = (function() {
   };
 
   obj.start = function() {
+    // Parse album id, name and description
+    var albumId = window.location.pathname.match(/album-\d+/)[0].match(/\d+/)[0];
+    folderName = 'renren-album-' + albumId;
+    var $albumInfo = $('div.ablum-infor');
+    albumName = $albumInfo.children('h1').contents()[0].data;
+    albumDesc = $.trim($('#describeAlbum').contents()[0].data);
+    (albumDesc === '还没有相册描述...') && (albumDesc = '');
+
     // Get all the sources and put in photos array
     photos = [];
     var cnt = 0;
@@ -411,33 +437,29 @@ var album = (function() {
     }
     $photoPages.each(function(idx, ele) {
       cnt++;
-      var picPageHref = $(ele).attr('href');  // URL of the photo page
       (function() {
+        var picPageHref = $(ele).attr('href');  // URL of the photo page
         var curIdx = idx;
         // Go to the photo page and get photo URL
-        $.get(picPageHref, function(data) {
-          var photoStrMat = data.match(/photosJson.+{.+}.*;/);
-          if (!photoStrMat) {
-            return;
-          }
-          var photoStr = photoStrMat[0].match(/{.+}/)[0];
-          var photoObj = $.parseJSON(photoStr);
-          folderName = 'renren-album-' + photoObj.currentPhoto.albumId;
-          albumName = photoObj.currentPhoto.albumName;
-          var src = photoObj.currentPhoto.large;
+        $.get(picPageHref, function(html) {
+          var $html = $(html);
+          var src = $html.find('#photo').attr('src');
           var ext = src.match(/.\w{3,4}$/)[0];
+          var title = $html.find('#photoTitle').text();
+          (title === '单击此处添加描述') && (title = '');
           var photo = {
             src: src,
-            title: photoObj.currentPhoto.title,
+            title: title,
             filename: (curIdx + 1) + ext,
-            idx: curIdx + 1
+            idx: curIdx + 1,
+            pageUrl: picPageHref
           };
           photos.push(photo);
           cnt--;
           if (cnt === 0) {
             downloadPhotos();
           }
-        });
+        }, 'html');
       })();
     });
   };

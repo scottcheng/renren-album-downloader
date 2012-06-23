@@ -32,5 +32,10 @@
   "errorTxtDesc": {
     "message": "These photos are not downloaded due to network failure:",
     "description": "Description shown at the beginning of errors.txt"
+  },
+
+  "infoAlbumLinkText": {
+    "message": "View original album",
+    "description": "Text on original album's link in info.html"
   }
 }

@@ -1,15 +1,15 @@
 {
   "name": "__MSG_extName__",
-  "version": "2.0.5",
+  "version": "2.2.8",
   "manifest_version": 2,
   "description": "__MSG_extDesc__",
   "permissions": [
-    "http://*.rrimg.com/",
-    "http://*.rrfmn.com/",
-    "http://*.xnpic.com/",
-    "http://*.xnimg.cn/",
-    "http://*.xiaonei.com/",
-    "http://photo.renren.com/photo/"
+    "*://*.rrimg.com/",
+    "*://*.rrfmn.com/",
+    "*://*.xnpic.com/",
+    "*://*.xnimg.cn/",
+    "*://*.xiaonei.com/",
+    "*://photo.renren.com/"
   ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "background": {
@@ -20,14 +20,15 @@
   "content_scripts": [
     {
       "matches": [
-        "http://photo.renren.com/getalbumprofile.do?owner=*",
-        "http://photo.renren.com/photo/*album-*"
+        "*://photo.renren.com/getalbumprofile.do?owner=*",
+        "*://photo.renren.com/photo/*album-*"
       ],
       "js": [
         "lib/jquery-binary-ajax.js",
         "lib/jszip.js",
         "lib/base64ArrayBuffer.js",
         "lib/FileSaver.min.js",
+        "lib/jquery.tmpl.min.js",
         "content.js"
       ],
       "run_at": "document_end"
@@ -35,6 +36,7 @@
   ],
   "web_accessible_resources": [
     "style.css",
+    "info.tmpl.html",
     "ui/download.png",
     "ui/checkmark.png"
   ],
