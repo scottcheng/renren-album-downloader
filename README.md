@@ -5,6 +5,8 @@ A Chrome extension which enables you to download a Renren album with one click
 
 See in [Chrome Web Store](https://chrome.google.com/webstore/detail/enmkdplopmpkfnlefdldpkbcmihgcdec)
 
+Released under the [MIT license](http://www.opensource.org/licenses/MIT).
+
 
 - - - - -
 
@@ -13,7 +15,7 @@ Renren album downloader packs up all the photos in an arbitrary Renren album in 
 
 
 How to use
-====
+----
 
 1. Go to a Renren album that you want.
    * Not a album share page (yet). If you happen to be in a album share page, please click on the link below the album name to the real album page.
@@ -27,7 +29,7 @@ How to use
 
 
 Known Issues
-====
+----
 
 * Could crash Chrome when downloading *huge* albums, say 2 MB gifs * 120.
 
@@ -45,7 +47,7 @@ Known Issues
 
 
 使用说明
-====
+----
 
 1. 进入一个人人相册页面。
    * 不是相册分享页面。如果你刚好在一个相册分享页面，请点击相册标题下面的链接进入真正的相册页面，再使用插件。
@@ -61,7 +63,7 @@ Known Issues
 
 
 已知的问题
-====
+----
 
 * 下载巨大相册的时候可能导致Chrome crash，比如120张2MB的gif。
 
