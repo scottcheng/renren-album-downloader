@@ -5,7 +5,7 @@ A Chrome extension which enables you to download a Renren album with one click
 
 See in [Chrome Web Store](https://chrome.google.com/webstore/detail/enmkdplopmpkfnlefdldpkbcmihgcdec)
 
-Released under the [MIT license](http://www.opensource.org/licenses/MIT).
+Released under the MIT license.
 
 
 - - - - -

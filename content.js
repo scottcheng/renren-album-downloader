@@ -1,6 +1,3 @@
-// Renren Album Downloader by Scott Cheng
-// Content script
-
 var conf = {
   // Scroll screen interval
   SCR_ITV: 750,
