@@ -1,9 +1,7 @@
 Renren Album Downloader
 ====
 
-A Chrome extension which enables you to download a Renren album with one click
-
-See in [Chrome Web Store](https://chrome.google.com/webstore/detail/enmkdplopmpkfnlefdldpkbcmihgcdec)
+Renren Album Downloader is a Chrome extension which enables you to download a Renren album with one click. See in [Chrome Web Store](https://chrome.google.com/webstore/detail/enmkdplopmpkfnlefdldpkbcmihgcdec).
 
 Released under the MIT license.
 
@@ -11,7 +9,7 @@ Released under the MIT license.
 - - - - -
 
 
-Renren album downloader packs up all the photos in an arbitrary Renren album in a zip, and sends it to your disk.
+Renren Album Downloader packs up all the photos in an arbitrary Renren album in a zip, and sends it to your disk.
 
 
 How to use
