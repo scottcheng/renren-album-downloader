@@ -434,6 +434,7 @@ var album = (function() {
     }
     $photoPages.each(function(idx, ele) {
       cnt++;
+      // TODO read image url from data-photo
       (function() {
         var picPageHref = $(ele).attr('href');  // URL of the photo page
         var curIdx = idx;
