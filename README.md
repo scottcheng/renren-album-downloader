@@ -16,6 +16,7 @@ How to use
 ----
 
 1. Go to a Renren album that you want.
+   * Currently only supports user albums. Public page albums will be supported in future releases.
    * Not a album share page (yet). If you happen to be in a album share page, please click on the link below the album name to the real album page.
 
 2. Click "Download album".
@@ -29,7 +30,7 @@ How to use
 Known Issues
 ----
 
-* Could crash Chrome when downloading *huge* albums, say 2 MB gifs * 120.
+* Could crash Chrome when downloading *huge* albums, say 500-photo albums.
 
 * Naming folders / files with Chinese characters sometimes leads to corrupted zips. Therefore, all the Chinese stuff (album name, album description, and photo descriptions) are put into info.html, rather than used in folder / file names.
 
@@ -48,7 +49,8 @@ Known Issues
 ----
 
 1. 进入一个人人相册页面。
-   * 不是相册分享页面。如果你刚好在一个相册分享页面，请点击相册标题下面的链接进入真正的相册页面，再使用插件。
+   * 目前仅支持下载好友的相册暂不支持公共主页相册。
+   * 相册页面，不是相册分享页面。如果你刚好在一个相册分享页面，请点击相册标题下面的链接进入真正的相册页面，再使用插件。
 
 2. 点击“下载整个相册”。
 
@@ -63,6 +65,6 @@ Known Issues
 已知的问题
 ----
 
-* 下载巨大相册的时候可能导致Chrome crash，比如120张2MB的gif。
+* 下载巨大的相册可能导致Chrome crash，比如500张照片的相册。
 
 * 用中文命名文件或文件夹有可能会导致zip出错。因此，目前把所有可能出现中文的内容（相册标题、相册描述、照片描述）全部塞到了info.html中，而不是直接作为文件名。
