@@ -394,9 +394,9 @@ var album = (function() {
 
     // Get the image data of each photo and send to downloader
     var cnt = 0;  // Counts downloaded photos
-    // $.ajaxSetup({
-    //   timeout: conf.GET_PHOTO_TO
-    // });
+    $.ajaxSetup({
+      timeout: conf.GET_PHOTO_TO
+    });
     var addToQueue = function(idx) {
       if (idx >= len) {
         return;
