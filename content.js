@@ -426,40 +426,39 @@ var album = (function() {
     // Get all the sources and put in photos array
     photos = [];
     var cnt = 0;
-    var $photoPages = $('div.photo-list li > a.picture');
-    if ($photoPages.length === 0) {
+    var $photoItems = $('div.photo-list li');
+    if ($photoItems.length === 0) {
       // No photos to download
       // TODO
       return;
     }
-    $photoPages.each(function(idx, ele) {
-      cnt++;
-      // TODO read image url from data-photo
-      (function() {
-        var picPageHref = $(ele).attr('href');  // URL of the photo page
-        var curIdx = idx;
-        // Go to the photo page and get photo URL
-        $.get(picPageHref, function(html) {
-          var $html = $(html);
-          var src = $html.find('#photo').attr('src');
-          var ext = src.match(/.\w{3,4}$/)[0];
-          var title = $html.find('#photoTitle').text();
-          (title === '单击此处添加描述') && (title = '');
-          var photo = {
-            src: src,
-            title: title,
-            filename: (curIdx + 1) + ext,
-            idx: curIdx + 1,
-            pageUrl: picPageHref
-          };
-          photos.push(photo);
-          cnt--;
-          if (cnt === 0) {
-            downloadPhotos();
-          }
-        }, 'html');
+
+    $photoItems.each(function(idx, ele) {
+      var $ele = $(ele);
+      var $a = $ele.children('a.picture');
+      var pageUrl = $a.attr('href');
+
+      var $img = $a.children('img');
+      var src = (function() {
+        eval('var obj = ' + $img.attr('data-photo'));
+        return obj.large;
+        // replace '/large' with '/original' for full size img
       })();
+      var ext = src.match(/.\w{3,4}$/)[0];
+
+      var $desc = $ele.find('span.descript');
+      var title = $desc.length ? $desc.text() : '';
+
+      photos.push({
+        src: src,
+        title: title,
+        filename: (idx + 1) + ext,
+        idx: idx + 1,
+        pageUrl: pageUrl
+      });
     });
+
+    downloadPhotos();
   };
 
   return obj;
