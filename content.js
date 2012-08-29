@@ -10,8 +10,11 @@ var conf = {
 
   // Get photo data interval
   GET_PHOTO_ITV_H: 1500,
-  GET_PHOTO_ITV_L: 150,
-  GET_PHOTO_ITV: 150
+  GET_PHOTO_ITV_L: 250,
+  GET_PHOTO_ITV: 250,
+  
+  // Get photo data timeout
+  GET_PHOTO_TO: 60000
 };
 
 var util = (function() {
@@ -391,6 +394,9 @@ var album = (function() {
 
     // Get the image data of each photo and send to downloader
     var cnt = 0;  // Counts downloaded photos
+    // $.ajaxSetup({
+    //   timeout: conf.GET_PHOTO_TO
+    // });
     var addToQueue = function(idx) {
       if (idx >= len) {
         return;
