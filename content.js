@@ -354,7 +354,7 @@ var album = (function() {
 
   var createInfo = function () {
     var ret = {
-      header: chrome.i18n.getMessage('extName'),
+      extName: chrome.i18n.getMessage('extName'),
       title: albumName,
       desc: albumDesc,
       url: window.location.href,
@@ -422,8 +422,14 @@ var album = (function() {
 
   obj.start = function() {
     // Parse album id, name and description
-    var albumId = window.location.pathname.match(/album-\d+/)[0].match(/\d+/)[0];
-    folderName = 'renren-album-' + albumId;
+
+    // TODO profile albums
+    // if (window.location.pathname.contains('getalbumprofile.do')){
+    //   folderName = 'XXX';
+    // } else {
+      var albumId = window.location.pathname.match(/album-\d+/)[0].match(/\d+/)[0];
+      folderName = 'renren-album-' + albumId;
+    // }
     var $albumInfo = $('div.ablum-infor');
     albumName = $albumInfo.children('h1').contents()[0].data;
     albumDesc = $.trim($('#describeAlbum').contents()[0].data);
@@ -447,8 +453,14 @@ var album = (function() {
       var $img = $a.children('img');
       var src = (function() {
         eval('var obj = ' + $img.attr('data-photo'));
-        return obj.large;
-        // replace '/large' with '/original' for full size img
+        var large = obj.large;
+        // replace '/large' with '/original' to get full size img
+        var original = large.replace('/large', '/original');
+        
+        // TODO check option
+        return original;
+        
+        // test case: http://photo.renren.com/photo/345523485/album-636199870
       })();
       var ext = src.match(/.\w{3,4}$/)[0];
 
