@@ -1,6 +1,6 @@
 var conf = {
   // Scroll screen interval
-  SCR_ITV: 750,
+  SCR_ITV: 1000,
 
   // Reposition download button interval
   REPOSITION_ITV: 250,
@@ -15,6 +15,10 @@ var conf = {
   
   // Get photo data timeout
   GET_PHOTO_TO: 60000
+};
+
+var options = {
+
 };
 
 var util = (function() {
@@ -354,7 +358,7 @@ var album = (function() {
 
   var createInfo = function () {
     var ret = {
-      header: chrome.i18n.getMessage('extName'),
+      extName: chrome.i18n.getMessage('extName'),
       title: albumName,
       desc: albumDesc,
       url: window.location.href,
@@ -422,8 +426,15 @@ var album = (function() {
 
   obj.start = function() {
     // Parse album id, name and description
-    var albumId = window.location.pathname.match(/album-\d+/)[0].match(/\d+/)[0];
-    folderName = 'renren-album-' + albumId;
+
+    if (window.location.pathname.indexOf('getalbumprofile.do') !== -1){
+      // profile album
+      var userId = window.location.search.match(/owner=\d+/)[0].match(/\d+/)[0];
+      folderName = 'renren-album-profile-' + userId;
+    } else {
+      var albumId = window.location.pathname.match(/album-\d+/)[0].match(/\d+/)[0];
+      folderName = 'renren-album-' + albumId;
+    }
     var $albumInfo = $('div.ablum-infor');
     albumName = $albumInfo.children('h1').contents()[0].data;
     albumDesc = $.trim($('#describeAlbum').contents()[0].data);
@@ -447,8 +458,15 @@ var album = (function() {
       var $img = $a.children('img');
       var src = (function() {
         eval('var obj = ' + $img.attr('data-photo'));
-        return obj.large;
-        // replace '/large' with '/original' for full size img
+        var large = obj.large;
+        // replace '/large' with '/original' to get full size img
+        var original = large.replace('/large', '/original');
+        
+        if (options.originalSize === 'true') {
+          return original;
+        } else {
+          return large;
+        }
       })();
       var ext = src.match(/.\w{3,4}$/)[0];
 
@@ -473,6 +491,16 @@ var album = (function() {
 
 chrome.extension.sendRequest({
   e: 'visitAlbum'
+});
+
+// get options from local storage
+chrome.extension.sendRequest({
+  e: 'getOption',
+  name: 'originalSize'
+}, function(response) {
+  options.originalSize = response.value;
+  console.log('resp');
+  console.log(response);
 });
 
 view.init();
