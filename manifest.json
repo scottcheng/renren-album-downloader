@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "2.4.3",
+  "version": "2.4.12",
   "manifest_version": 2,
   "description": "__MSG_extDesc__",
   "permissions": [
@@ -40,6 +40,7 @@
     "ui/download.png",
     "ui/checkmark.png"
   ],
+  "options_page": "options.html",
   "default_locale": "zh_CN",
   "icons": {
     "16": "ui/logo_16.png",

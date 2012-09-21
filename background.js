@@ -46,8 +46,20 @@ var reqListeners = {
 };
 
 chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
+  if (req.e === 'getOption') {
+    ret = {value: localStorage[req.name]};
+    ret && sendResponse(ret);
+    return;
+  }
+
   var func = reqListeners[req.e];
   var ret;
   func && (ret = func(req.opt, sender));
   ret && sendResponse(ret);
 });
+
+
+if (localStorage['firstRun'] === undefined) {
+  window.open('options.html');
+  localStorage['firstRun'] = false;
+}

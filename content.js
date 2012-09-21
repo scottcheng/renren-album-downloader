@@ -1,6 +1,6 @@
 var conf = {
   // Scroll screen interval
-  SCR_ITV: 750,
+  SCR_ITV: 1000,
 
   // Reposition download button interval
   REPOSITION_ITV: 250,
@@ -15,6 +15,10 @@ var conf = {
   
   // Get photo data timeout
   GET_PHOTO_TO: 60000
+};
+
+var options = {
+
 };
 
 var util = (function() {
@@ -423,13 +427,14 @@ var album = (function() {
   obj.start = function() {
     // Parse album id, name and description
 
-    // TODO profile albums
-    // if (window.location.pathname.contains('getalbumprofile.do')){
-    //   folderName = 'XXX';
-    // } else {
+    if (window.location.pathname.indexOf('getalbumprofile.do') !== -1){
+      // profile album
+      var userId = window.location.search.match(/owner=\d+/)[0].match(/\d+/)[0];
+      folderName = 'renren-album-profile-' + userId;
+    } else {
       var albumId = window.location.pathname.match(/album-\d+/)[0].match(/\d+/)[0];
       folderName = 'renren-album-' + albumId;
-    // }
+    }
     var $albumInfo = $('div.ablum-infor');
     albumName = $albumInfo.children('h1').contents()[0].data;
     albumDesc = $.trim($('#describeAlbum').contents()[0].data);
@@ -457,10 +462,11 @@ var album = (function() {
         // replace '/large' with '/original' to get full size img
         var original = large.replace('/large', '/original');
         
-        // TODO check option
-        return original;
-        
-        // test case: http://photo.renren.com/photo/345523485/album-636199870
+        if (options.originalSize === 'true') {
+          return original;
+        } else {
+          return large;
+        }
       })();
       var ext = src.match(/.\w{3,4}$/)[0];
 
@@ -485,6 +491,16 @@ var album = (function() {
 
 chrome.extension.sendRequest({
   e: 'visitAlbum'
+});
+
+// get options from local storage
+chrome.extension.sendRequest({
+  e: 'getOption',
+  name: 'originalSize'
+}, function(response) {
+  options.originalSize = response.value;
+  console.log('resp');
+  console.log(response);
 });
 
 view.init();
