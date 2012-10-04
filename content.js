@@ -80,16 +80,6 @@ var view = (function() {
       .appendTo($hint);
     $btn.appendTo($body);
 
-    $btn.ajaxError(function(e, jqXHR, ajaxSettings) {
-      chrome.extension.sendRequest({
-        e: 'ajaxError',
-        opt: {
-          url: ajaxSettings.url
-        }
-      });
-      downloader.onError(ajaxSettings.url);
-    });
-
 
     $btn.click(function() {
       if (disabled) {
@@ -311,7 +301,7 @@ var downloader = (function() {
 
   obj.onError = function(url) {
     len--;
-    errList.push(url);
+    // errList.push(url);
     view.updateDownloadProgress(cnt, len);
     if (len === cnt) {
       startZipping();
@@ -398,24 +388,44 @@ var album = (function() {
 
     // Get the image data of each photo and send to downloader
     var cnt = 0;  // Counts downloaded photos
-    $.ajaxSetup({
-      timeout: conf.GET_PHOTO_TO
-    });
     var addToQueue = function(idx) {
       if (idx >= len) {
         return;
       }
       (function() {
         var photo = photos[idx];
-        $.get(photo.src, function(data) {
-          cnt++;
-          downloader.add(data, photo);
+        if (options.originalSize === 'true') {
+          var urlArr = [photo.src.original, photo.src.xlarge, photo.src.large];
+        } else {
+          var urlArr = [photo.src.large];
+        }
 
-          // Adjust GET_PHOTO_ITV
-          conf.GET_PHOTO_ITV = data.byteLength > 1048576 ? conf.GET_PHOTO_ITV_H : conf.GET_PHOTO_ITV_L;
-          data = null;
-        },
-        'binary');
+        var ajaxPhoto = function(urlArr) {
+          $.ajax({
+            url: urlArr[0],
+            type: 'GET',
+            error: function(jqXHR) {
+              if (jqXHR.status === 404 && urlArr.length > 1) {
+                urlArr.shift();
+                ajaxPhoto(urlArr);
+                return;
+              }
+              downloader.onError();
+            },
+            success: function(data) {
+              cnt++;
+              downloader.add(data, photo);
+
+              // Adjust GET_PHOTO_ITV
+              conf.GET_PHOTO_ITV = data.byteLength > 1048576 ? conf.GET_PHOTO_ITV_H : conf.GET_PHOTO_ITV_L;
+              data = null;
+            },
+            dataType: 'binary',
+            timeout: conf.GET_PHOTO_TO
+          });
+        };
+
+        ajaxPhoto(urlArr);
       })();
       window.setTimeout(function() {
         addToQueue(idx + 1);
@@ -459,16 +469,17 @@ var album = (function() {
       var src = (function() {
         eval('var obj = ' + $img.attr('data-photo'));
         var large = obj.large;
-        // replace '/large' with '/original' to get full size img
+
+        // replace '/large' with '/original' or '/xlarge' to get larger img
         var original = large.replace('/large', '/original');
-        
-        if (options.originalSize === 'true') {
-          return original;
-        } else {
-          return large;
-        }
+        var xlarge = large.replace('/large', '/xlarge');
+        return {
+          large: large,
+          xlarge: xlarge,
+          original: original
+        };
       })();
-      var ext = src.match(/.\w{3,4}$/)[0];
+      var ext = src.large.match(/.\w{3,4}$/)[0];
 
       var $desc = $ele.find('span.descript');
       var title = $desc.length ? $desc.text() : '';
@@ -499,8 +510,6 @@ chrome.extension.sendRequest({
   name: 'originalSize'
 }, function(response) {
   options.originalSize = response.value;
-  console.log('resp');
-  console.log(response);
 });
 
 view.init();
