@@ -117,7 +117,7 @@ var view = (function() {
         var $sidebar = $friendsPanel.children('div');
         if ($friendsPanel.hasClass('side-panel') && $sidebar.hasClass('actived')) {
           // Sidebar is here, watch out
-          var newRight = $sidebar.width() + oriRight;
+          var newRight = $sidebar.filter('.actived').width() + oriRight;
           $btn.css('right', newRight);
         } else {
           $btn.css('right', oriRight);
