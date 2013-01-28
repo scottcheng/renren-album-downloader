@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "2.4.16",
+  "version": "2.4.17",
   "manifest_version": 2,
   "description": "__MSG_extDesc__",
   "permissions": [

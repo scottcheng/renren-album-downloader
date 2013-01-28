@@ -251,9 +251,9 @@ var downloader = (function() {
     }
 
     // write the ArrayBuffer to a blob, and you're done
-    var bb = new (window.BlobBuilder || window.WebKitBlobBuilder);
-    bb.append(ab);
-    return bb.getBlob(mimeString);
+    return new Blob([new Uint8Array(ia)], {
+      type: mimeString
+    });
   };
 
   var triggerDownload = function(uri, filename) {
