@@ -113,11 +113,10 @@ var view = (function() {
     (function() {
       var oriRight = 24;  // window.parseInt($btn.css('right'));
       var repositionBtn = function() {
-        var $friendsPanel = $('#friends-panel');
-        var $sidebar = $friendsPanel.children('div');
-        if ($friendsPanel.hasClass('side-panel') && $sidebar.hasClass('actived')) {
+        var $sidebar = $('#friends-panel > div.popupwindow.actived');
+        if ($sidebar.length) {
           // Sidebar is here, watch out
-          var newRight = $sidebar.filter('.actived').width() + oriRight;
+          var newRight = $sidebar.width() + oriRight;
           $btn.css('right', newRight);
         } else {
           $btn.css('right', oriRight);
